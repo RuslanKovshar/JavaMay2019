@@ -18,10 +18,11 @@ public class Controller implements RegularExpressions{
         Scanner scanner = new Scanner(System.in);
         ValueInputer valueInputer = new ValueInputer(scanner, view);
 
-        model.setFirstName(valueInputer.inputValueWhithScanner(firstName));
-        System.out.println(model.getFirstName());
-
+        model.setFirstName(valueInputer.inputValueWhithScanner(firstName,View.INPUT_FIRST_NAME));
+        model.setSecondName(valueInputer.inputValueWhithScanner(secondName, View.INPUT_SECOND_NAME));
+        model.setNickName(valueInputer.inputValueWhithScanner(nickName,View.INPUT_NICKNAME));
+        view.printMessage(View.NAME_VALUE + model.getFirstName() + View.ENDL +
+                View.SECOND_NAME_VALUE + model.getSecondName() + View.ENDL +
+                View.NICKNAME + model.getNickName());
     }
-
-
 }

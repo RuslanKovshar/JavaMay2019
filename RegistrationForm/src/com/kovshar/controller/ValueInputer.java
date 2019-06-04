@@ -3,8 +3,6 @@ package com.kovshar.controller;
 import com.kovshar.view.View;
 
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ValueInputer {
     private Scanner sc;
@@ -15,15 +13,12 @@ public class ValueInputer {
         this.view = view;
     }
 
-    public String inputValueWhithScanner(String regex){
+    public String inputValueWhithScanner(String regex, String msg){
         String value;
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher;
         do {
-            view.printMessage(View.INPUT_FIRST_NAME);
+            view.printMessage(msg);
             value = sc.next();
-            matcher = pattern.matcher(value);
-        }while (!matcher.matches());
+        }while (!value.matches(regex));
         return value;
     }
 }
