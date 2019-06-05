@@ -14,6 +14,10 @@ public class Controller implements RegularExpressions{
         this.view = view;
     }
 
+    /**
+     * Запускает процес ввода необходимых значений, проверяет их, формирует строку(передает управление в модель)
+     * и отображает на экран(передает управление на View)
+     */
     public void process(){
         Scanner scanner = new Scanner(System.in);
         ValueInputer valueInputer = new ValueInputer(scanner, view);

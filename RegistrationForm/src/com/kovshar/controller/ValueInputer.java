@@ -13,6 +13,12 @@ public class ValueInputer {
         this.view = view;
     }
 
+    /**
+     * Проверяет правильность введенного сравнивая с регулярным выражением
+     * @param regex     Регулярное выражение
+     * @param msg       Сообщения для просьбы ввести значение
+     * @return value    Коректное значение
+     */
     public String inputValueWhithScanner(String regex, String msg){
         String value;
         do {

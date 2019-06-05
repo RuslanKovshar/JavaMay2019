@@ -5,12 +5,6 @@ public class Model {
     private String secondName;
     private String nickName;
 
-    public String getSentence(){
-        StringBuilder tempStr = new StringBuilder();
-        tempStr.append(firstName).append(secondName).append(nickName);
-        return tempStr.toString();
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

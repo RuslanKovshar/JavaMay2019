@@ -1,5 +1,8 @@
 package com.kovshar.controller;
 
+/**
+ * Хранит регулярные выражения
+ */
 public interface RegularExpressions {
     String firstName = "^[А-ЩҐЄІЇЮЯ]{1}[а-щґіїьюя]+$";
     String secondName = "^[А-ЩҐЄІЇЮЯ]{1}[а-щґіїьюя]+$";
