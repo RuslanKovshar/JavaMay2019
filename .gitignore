@@ -1,6 +1,6 @@
 *.class
 
-*.xml
 *.iml
 
 out/
+.idea/
