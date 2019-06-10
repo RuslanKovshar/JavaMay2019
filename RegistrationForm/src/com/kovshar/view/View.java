@@ -1,15 +1,35 @@
 package com.kovshar.view;
 
-public class View {
-    public final static String INPUT_FIRST_NAME = "Input your first name: ";
-    public final static String INPUT_SECOND_NAME = "Input your second name: ";
-    public final static String INPUT_NICKNAME = "Input your nickname: ";
-    public final static String NAME_VALUE = "Name: ";
-    public final static String SECOND_NAME_VALUE = "Second name: ";
-    public final static String NICKNAME = "Nickname: ";
-    public final static String ENDL = "\n";
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-    public void printMessage(String msg){
+public class View implements TextConstants{
+    static String MESSAGES_BUNDLE_NAME = "messages";
+    //static String loc = Locale.ENGLISH;
+    public static final ResourceBundle bundle =
+            ResourceBundle.getBundle(MESSAGES_BUNDLE_NAME, new Locale("ua","UA"));
+            //new Locale("en"));
+
+    public void printMessage(String msg) {
         System.out.println(msg);
+    }
+
+    public String concat(String... message){
+        StringBuilder concatString = new StringBuilder();
+        for (String str : message) {
+            concatString.append(str);
+        }
+        return new String(concatString);
+    }
+
+    public void printInputMessage(String msg){
+        printMessage(concat(
+                bundle.getString(INPUT_DATA),
+                bundle.getString(msg)));
+    }
+
+    public void printWrongMessage(String msg){
+        printMessage(bundle.getString(WRONG_DATA));
+        printInputMessage(msg);
     }
 }

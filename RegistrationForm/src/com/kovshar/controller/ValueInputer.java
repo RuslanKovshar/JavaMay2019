@@ -19,12 +19,12 @@ public class ValueInputer {
      * @param msg       Сообщения для просьбы ввести значение
      * @return value    Коректное значение
      */
-    public String inputValueWhithScanner(String regex, String msg){
+    public String inputValueWithScanner(String regex, String msg){
         String value;
-        do {
-            view.printMessage(msg);
-            value = sc.next();
-        }while (!value.matches(regex));
+        view.printInputMessage(msg);
+        while (!(sc.hasNext() && (value = sc.next()).matches(regex)) ){
+            view.printWrongMessage(msg);
+        }
         return value;
     }
 }
