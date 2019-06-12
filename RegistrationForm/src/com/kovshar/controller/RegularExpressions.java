@@ -7,7 +7,7 @@ public interface RegularExpressions {
     String FIRST_NAME_UA = "^[А-ЩҐЄІЇЮЯ]{1}[а-щґіїьюя]+$";
     String SECOND_NAME_UA = "^[А-ЩҐЄІЇЮЯ]{1}[а-щґіїьюя]+$";
     String FATHERS_NAME = "^[А-ЩҐЄІЇЮЯ]{1}[а-щґіїьюя]+$";
-    String NICK_NAME = "^[A-Za-z]+[A-Za-z0-9._-]{3,20}$";
+    String NICKNAME = "^[A-Za-z]+[A-Za-z0-9._-]{3,20}$";
     String COMMENT = "^[А-ЩҐЄІЇЮЯа-щґіїьюя., -]*$";
     String HOME_PHONE = "^[\\d]{3}[\\-]?[\\d]{2}[\\-]?[\\d]{2}$";
     String MOBILE_PHONE = "^(\\+38)?[\\d]{10}$";
