@@ -29,14 +29,15 @@ public class Controller implements RegularExpressions {
 
     public NoteBook addRecord(Record record) {
         NoteBook noteBook = null;
+        record.inputValue();
         while (true) {
-            record.inputValue();
             try {
                 noteBook = new NoteBook(record, view);
                 break;
             } catch (NotUniqueNicknameException ex) {
                 ex.printStackTrace();
             }
+            record.inputNickname();
         }
         return noteBook;
     }
