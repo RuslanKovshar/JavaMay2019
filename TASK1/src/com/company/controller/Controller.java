@@ -3,7 +3,7 @@ package com.company.controller;
 import com.company.model.*;
 
 import static com.company.view.TextConstants.*;
-import static com.company.model.SimpleDataBase.*;
+
 import com.company.view.View;
 
 import java.util.Scanner;
@@ -18,16 +18,30 @@ public class Controller {
     }
 
     public void process() {
-        view.printsMessage(View.bundle.getString(HELLO));
         Scanner scanner = new Scanner(System.in);
-        inputValue(scanner);
-        System.out.println(FIRST_BALL.getCount());
+        GameRoom gameRoom = new GameRoom(view);
+        ToysCreator toysCreator = new ToysCreator(view, scanner, gameRoom, inputValue(scanner));
+
+        toysCreator.chooseToy();
+
+        view.printMainMessage(View.getBundleMessage(YOUR_TOYS_MSG));
+        view.printMessage(gameRoom.toString());
+
+        view.printMainMessage(View.getBundleMessage(SORTING_MSG));
+        gameRoom.sort();
+        view.printMessage(gameRoom.toString());
+
+        view.printMainMessage(View.getBundleMessage(TOYS_FOR_BABY_MSG));
+        gameRoom.showToysForBaby();
         scanner.close();
     }
 
     public double inputValue(Scanner sc) {
-        view.printsMessage(View.getBundleMessage(INPUT_VALUE_MSG));
-        //TODO: Если не дабл, то повторить в цыкле
+        view.printMessage(View.getBundleMessage(INPUT_VALUE_MSG));
+        while (!sc.hasNextDouble()) {
+            view.printMessage(View.getBundleMessage(INCORRECT_VALUE_MSG));
+            sc.next();
+        }
         return sc.nextDouble();
     }
 }

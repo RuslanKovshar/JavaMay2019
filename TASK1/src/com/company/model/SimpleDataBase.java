@@ -11,7 +11,7 @@ public enum SimpleDataBase {
     FIRST_CUBES(9.99, 0, 8, "Animals"),
     SECOND_CUBES(11.99, 3, 10, "Numbers"),
     THIRD_CUBES(15.99, 3, 26, "Alphabet"),
-    FOURS_CUBEW(8.99, 1, 20, "Things"),
+    FOURS_CUBES(8.99, 1, 20, "Things"),
 
     /*Balls data*/
     FIRST_BALL(9.99, 0, "Football", 4),
