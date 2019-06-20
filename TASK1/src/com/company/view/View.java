@@ -7,8 +7,14 @@ import static com.company.view.TextConstants.INCORRECT_VALUE_MSG;
 
 public class View {
     public String LINE = "============================";
+    public String CHOOSE_LOCALE = "Choose locale";
+    public String INCORRECT_LOCALE = "You can choose only 'en' or 'ua'";
     private static String BUNDLE_NAME = "messages";
-    public final static ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_NAME, new Locale("ua"));
+    public static ResourceBundle bundle;
+
+    public void setLocale(String locale) {
+        bundle = ResourceBundle.getBundle(BUNDLE_NAME, new Locale(locale));
+    }
 
     public void printMessage(String msg) {
         System.out.println(msg);

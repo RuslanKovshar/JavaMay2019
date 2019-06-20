@@ -1,4 +1,4 @@
-package com.company.model;
+package com.company.model.toys;
 
 import com.company.view.View;
 
@@ -32,7 +32,7 @@ public class Ball extends Toy {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return super.toString() + View.getBundleMessage(SIZE_MSG) + size + "\n" +
                 View.getBundleMessage(FOR_WHAT_GAME_MSG) + forWhatGame + "\n";
     }

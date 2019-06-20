@@ -4,9 +4,6 @@ public interface TextConstants {
     String INPUT_VALUE_MSG = "input.amount.of.money.data";
     String INCORRECT_VALUE_MSG = "incorrect.data";
     String CHOOSE_TOY_MSG = "choose.toy.data";
-    String CHOOSE_DOLL_MSG = "choose.doll.data";
-    String CHOOSE_BALL_MSG = "choose.ball.data";
-    String CHOOSE_CUBES_MSG = "choose.cubes.data";
     String AMOUNT_OF_MONEY_MSG = "amount.of.money.data";
     String YOUR_TOYS_MSG = "your.toys.data";
     String SORTING_MSG = "sorting";
@@ -29,4 +26,16 @@ public interface TextConstants {
     /*Messages for Ball class*/
     String SIZE_MSG = "size.data";
     String FOR_WHAT_GAME_MSG = "for.what.game.data";
+
+    /*Messages for cars*/
+    String MODEL_MSG = "model.data";
+
+    /*Messages for small class*/
+    String SCALE_MSG = "scale.data";
+
+    /*Messages for average class*/
+    String MAX_DISTANCE_MSG = "max.distance.data";
+
+    /*Messages for big class*/
+    String MAX_SPEED_MSG = "max.speed.data";
 }

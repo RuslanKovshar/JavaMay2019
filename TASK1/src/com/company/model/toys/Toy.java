@@ -1,4 +1,4 @@
-package com.company.model;
+package com.company.model.toys;
 
 import com.company.view.View;
 

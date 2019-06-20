@@ -1,11 +1,17 @@
 package com.company.controller;
 
 import com.company.model.*;
+import com.company.model.toys.*;
 import com.company.view.View;
 
 import java.util.Scanner;
 
-import static com.company.model.SimpleDataBase.*;
+import static com.company.model.simple.data.base.AverageCarTable.AVERAGE_CAR;
+import static com.company.model.simple.data.base.BallTable.BALL;
+import static com.company.model.simple.data.base.BigCarTable.BIG_CAR;
+import static com.company.model.simple.data.base.CubesTable.CUBES;
+import static com.company.model.simple.data.base.DollTable.DOLL;
+import static com.company.model.simple.data.base.SmallCarTable.SMALL_CAR;
 import static com.company.view.TextConstants.*;
 
 public class ToysCreator {
@@ -15,13 +21,16 @@ public class ToysCreator {
     private Toy toy;
     private double amountOfMoney;
 
-    ToysCreator(View view, Scanner scanner, GameRoom gameRoom, double amountOfMoney) {
+    ToysCreator(View view, GameRoom gameRoom, Scanner scanner, double amountOfMoney) {
         this.view = view;
         this.scanner = scanner;
         this.amountOfMoney = amountOfMoney;
         this.gameRoom = gameRoom;
     }
 
+    /**
+     * Allows to choose the toy to buy.
+     */
     public void chooseToy() {
         boolean choose = true;
         while (amountOfMoney > 0.0 && choose) {
@@ -37,6 +46,15 @@ public class ToysCreator {
                 case 3:
                     buyCubes();
                     break;
+                case 4:
+                    buySmallCar();
+                    break;
+                case 5:
+                    buyAverageCar();
+                    break;
+                case 6:
+                    buyBigCar();
+                    break;
                 case 0:
                     choose = false;
                     break;
@@ -46,10 +64,20 @@ public class ToysCreator {
         }
     }
 
+    /**
+     * Compares the price of toy and the amount of money.
+     *
+     * @param price price of toy
+     * @return true if we can buy toy
+     */
     private boolean checkPrice(double price) {
         return price <= amountOfMoney;
     }
 
+
+    /**
+     * Adds toy to list of toys in game room.
+     */
     private void addToy() {
         if (checkPrice(toy.getPrice())) {
             amountOfMoney -= toy.getPrice();
@@ -59,6 +87,13 @@ public class ToysCreator {
         }
     }
 
+
+    /**
+     * Enters int value for choosing toy.
+     *
+     * @param msg message to print
+     * @return int value
+     */
     public int inputValue(String msg) {
         view.printMessage(View.getBundleMessage(msg));
         while (!scanner.hasNextInt()) {
@@ -68,123 +103,69 @@ public class ToysCreator {
         return scanner.nextInt();
     }
 
+    /**
+     * Creates a doll, and adds it to list.
+     */
     private void buyDoll() {
-        boolean runCycle = true;
-        while (runCycle) {
-            int number = inputValue(CHOOSE_DOLL_MSG);
-            switch (number) {
-                case 1:
-                    toy = new Doll(FIRST_DOLL.getPrice(),
-                            FIRST_DOLL.getAgeCategory(),
-                            FIRST_DOLL.getType(),
-                            FIRST_DOLL.getMaterial());
-                    runCycle = false;
-                    break;
-                case 2:
-                    toy = new Doll(SECOND_DOLL.getPrice(),
-                            SECOND_DOLL.getAgeCategory(),
-                            SECOND_DOLL.getType(),
-                            SECOND_DOLL.getMaterial());
-                    runCycle = false;
-                    break;
-                case 3:
-                    toy = new Doll(THIRD_DOLL.getPrice(),
-                            THIRD_DOLL.getAgeCategory(),
-                            THIRD_DOLL.getType(),
-                            THIRD_DOLL.getMaterial());
-                    runCycle = false;
-                    break;
-                case 4:
-                    toy = new Doll(FOURTH_DOLL.getPrice(),
-                            FOURTH_DOLL.getAgeCategory(),
-                            FOURTH_DOLL.getType(),
-                            FOURTH_DOLL.getMaterial());
-                    runCycle = false;
-                    break;
-                default:
-                    view.incorrectDataMessage();
-            }
-        }
+        toy = new Doll(DOLL.getPrice(),
+                DOLL.getAgeCategory(),
+                DOLL.getType(),
+                DOLL.getMaterial());
         addToy();
     }
 
+    /**
+     * Creates a ball, and adds it to list.
+     */
     private void buyBall() {
-        boolean runCycle = true;
-        while (runCycle) {
-            int number = inputValue(CHOOSE_BALL_MSG);
-            switch (number) {
-                case 1:
-                    toy = new Ball(FIRST_BALL.getPrice(),
-                            FIRST_BALL.getAgeCategory(),
-                            FIRST_BALL.getSize(),
-                            FIRST_BALL.getForWhatGame());
-                    runCycle = false;
-                    break;
-                case 2:
-                    toy = new Ball(SECOND_BALL.getPrice(),
-                            SECOND_BALL.getAgeCategory(),
-                            SECOND_BALL.getSize(),
-                            SECOND_BALL.getForWhatGame());
-                    runCycle = false;
-                    break;
-                case 3:
-                    toy = new Ball(THIRD_BALL.getPrice(),
-                            THIRD_BALL.getAgeCategory(),
-                            THIRD_BALL.getSize(),
-                            THIRD_BALL.getForWhatGame());
-                    runCycle = false;
-                    break;
-                case 4:
-                    toy = new Ball(FOURTH_BALL.getPrice(),
-                            FOURTH_BALL.getAgeCategory(),
-                            FOURTH_BALL.getSize(),
-                            FOURTH_BALL.getForWhatGame());
-                    runCycle = false;
-                    break;
-                default:
-                    view.incorrectDataMessage();
-            }
-        }
+        toy = new Ball(BALL.getPrice(),
+                BALL.getAgeCategory(),
+                BALL.getSize(),
+                BALL.getForWhatGame());
         addToy();
     }
 
+    /**
+     * Creates a cubes, and adds it to list.
+     */
     private void buyCubes() {
-        boolean runCycle = true;
-        while (runCycle) {
-            int number = inputValue(CHOOSE_CUBES_MSG);
-            switch (number) {
-                case 1:
-                    toy = new Cubes(FIRST_CUBES.getPrice(),
-                            FIRST_CUBES.getAgeCategory(),
-                            FIRST_CUBES.getCount(),
-                            FIRST_CUBES.getDrawing());
-                    runCycle = false;
-                    break;
-                case 2:
-                    toy = new Cubes(SECOND_CUBES.getPrice(),
-                            SECOND_CUBES.getAgeCategory(),
-                            SECOND_CUBES.getCount(),
-                            SECOND_CUBES.getDrawing());
-                    runCycle = false;
-                    break;
-                case 3:
-                    toy = new Cubes(THIRD_CUBES.getPrice(),
-                            THIRD_CUBES.getAgeCategory(),
-                            THIRD_CUBES.getCount(),
-                            THIRD_CUBES.getDrawing());
-                    runCycle = false;
-                    break;
-                case 4:
-                    toy = new Cubes(FOURS_CUBES.getPrice(),
-                            FOURS_CUBES.getAgeCategory(),
-                            FOURS_CUBES.getCount(),
-                            FOURS_CUBES.getDrawing());
-                    runCycle = false;
-                    break;
-                default:
-                    view.incorrectDataMessage();
-            }
-        }
+        toy = new Cubes(CUBES.getPrice(),
+                CUBES.getAgeCategory(),
+                CUBES.getCount(),
+                CUBES.getDrawing());
+        addToy();
+    }
+
+    /**
+     * Creates a small car, and adds it to list.
+     */
+    private void buySmallCar() {
+        toy = new SmallCar(SMALL_CAR.getPrice(),
+                SMALL_CAR.getAgeCategory(),
+                SMALL_CAR.getModel(),
+                SMALL_CAR.getScale());
+        addToy();
+    }
+
+    /**
+     * Creates a average car, and adds it to list.
+     */
+    private void buyAverageCar() {
+        toy = new AverageCar(AVERAGE_CAR.getPrice(),
+                AVERAGE_CAR.getAgeCategory(),
+                AVERAGE_CAR.getModel(),
+                AVERAGE_CAR.getMaxDistance());
+        addToy();
+    }
+
+    /**
+     * Creates a big car, and adds it to list.
+     */
+    private void buyBigCar() {
+        toy = new BigCar(BIG_CAR.getPrice(),
+                BIG_CAR.getAgeCategory(),
+                BIG_CAR.getModel(),
+                BIG_CAR.getMaxSpeed());
         addToy();
     }
 }

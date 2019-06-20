@@ -1,5 +1,6 @@
 package com.company.model;
 
+import com.company.model.toys.Toy;
 import com.company.view.View;
 
 import java.util.ArrayList;
@@ -24,10 +25,19 @@ public class GameRoom {
         return toys;
     }
 
+    /**
+     * Sorts toys by price
+     */
     public void sort() {
         toys.sort(Toy::compareTo);
     }
 
+
+    /**
+     * Finds toys for baby(age category between 0 and 3).
+     *
+     * @return ArrayList of toys for baby
+     */
     public List<Toy> findToysForBaby() {
         List<Toy> babyToys = new ArrayList<>();
         for (Toy i : toys) {
@@ -38,6 +48,10 @@ public class GameRoom {
         return babyToys;
     }
 
+
+    /**
+     * Prints baby toys.
+     */
     public void showToysForBaby() {
         if (findToysForBaby().size() == 0) {
             view.printMessage(View.getBundleMessage(EMPTY_MSG));

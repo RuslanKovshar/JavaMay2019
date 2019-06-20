@@ -1,4 +1,4 @@
-package com.company.model;
+package com.company.model.toys;
 
 import com.company.view.View;
 
@@ -32,7 +32,7 @@ public class Doll extends Toy {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return super.toString() + View.getBundleMessage(TYPE_MSG) + type + "\n" +
                 View.getBundleMessage(MATERIAL_MSG) + material + "\n";
     }
