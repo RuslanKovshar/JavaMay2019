@@ -40,8 +40,6 @@ public class Controller {
         view.printMessage(gameRoom.toString());
 
         /*Show toys for baby*/
-        //gameRoom.setLowerBoundary(valueInputer.inputIntValue());
-        //gameRoom.setUpperBoundary(valueInputer.inputIntValue());
         view.printMainMessage(View.getBundleMessage(TOYS_FOR_BABY_MSG));
         view.printList(gameRoom.findToysForBaby());
         scanner.close();

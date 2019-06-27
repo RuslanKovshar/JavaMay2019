@@ -11,9 +11,9 @@ import static com.company.view.TextConstants.INCORRECT_VALUE_MSG;
 
 public class View {
     private static String BUNDLE_NAME = "messages";
-    public static ResourceBundle bundle;
+    private static ResourceBundle bundle;
 
-    public String LINE = "============================";
+    private String LINE = "============================";
     public String CHOOSE_LOCALE = "Choose locale";
     public String INCORRECT_LOCALE = "You can choose only 'en' or 'ua'";
     public String UA = "ua";
