@@ -1,10 +1,9 @@
 package com.company.controller;
 
-import com.company.model.*;
+import com.company.model.GameRoom;
 import com.company.model.toys.*;
+import com.company.view.TextConstants;
 import com.company.view.View;
-
-import java.util.Scanner;
 
 import static com.company.model.simple.data.base.AverageCarTable.AVERAGE_CAR;
 import static com.company.model.simple.data.base.BallTable.BALL;
@@ -12,18 +11,19 @@ import static com.company.model.simple.data.base.BigCarTable.BIG_CAR;
 import static com.company.model.simple.data.base.CubesTable.CUBES;
 import static com.company.model.simple.data.base.DollTable.DOLL;
 import static com.company.model.simple.data.base.SmallCarTable.SMALL_CAR;
-import static com.company.view.TextConstants.*;
+import static com.company.view.TextConstants.AMOUNT_OF_MONEY_MSG;
+import static com.company.view.TextConstants.LOW_MONEY_MSG;
 
-public class ToysCreator {
+class ToysCreator {
     private GameRoom gameRoom;
     private View view;
-    private Scanner scanner;
+    private ValueInputer valueInputer;
     private Toy toy;
     private double amountOfMoney;
 
-    ToysCreator(View view, GameRoom gameRoom, Scanner scanner, double amountOfMoney) {
+    ToysCreator(View view, GameRoom gameRoom,ValueInputer valueInputer, double amountOfMoney) {
         this.view = view;
-        this.scanner = scanner;
+        this.valueInputer = valueInputer;
         this.amountOfMoney = amountOfMoney;
         this.gameRoom = gameRoom;
     }
@@ -31,11 +31,11 @@ public class ToysCreator {
     /**
      * Allows to choose the toy to buy.
      */
-    public void chooseToy() {
+    void chooseToy() {
         boolean choose = true;
         while (amountOfMoney > 0.0 && choose) {
             view.printMessage(View.getBundleMessage(AMOUNT_OF_MONEY_MSG) + amountOfMoney);
-            int number = inputValue(CHOOSE_TOY_MSG);
+            int number = valueInputer.inputIntValue(TextConstants.CHOOSE_TOY_MSG);
             switch (number) {
                 case 1:
                     buyDoll();
@@ -87,21 +87,6 @@ public class ToysCreator {
         }
     }
 
-
-    /**
-     * Enters int value for choosing toy.
-     *
-     * @param msg message to print
-     * @return int value
-     */
-    public int inputValue(String msg) {
-        view.printMessage(View.getBundleMessage(msg));
-        while (!scanner.hasNextInt()) {
-            view.printMessage(View.getBundleMessage(INCORRECT_VALUE_MSG));
-            scanner.next();
-        }
-        return scanner.nextInt();
-    }
 
     /**
      * Creates a doll, and adds it to list.

@@ -1,20 +1,22 @@
 package com.company.model;
 
 import com.company.model.toys.Toy;
-import com.company.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.company.view.TextConstants.EMPTY_MSG;
+import java.util.stream.Collectors;
 
 public class GameRoom {
-    private List<Toy> toys;
-    private View view;
+    private List<Toy> toys = new ArrayList<>();
+    private int lowerBoundary = 0;
+    private int upperBoundary = 3;
 
-    public GameRoom(View view) {
-        this.view = view;
-        toys = new ArrayList<>();
+    public void setLowerBoundary(int lowerBoundary) {
+        this.lowerBoundary = lowerBoundary;
+    }
+
+    public void setUpperBoundary(int upperBoundary) {
+        this.upperBoundary = upperBoundary;
     }
 
     public void setToy(Toy toy) {
@@ -39,27 +41,9 @@ public class GameRoom {
      * @return ArrayList of toys for baby
      */
     public List<Toy> findToysForBaby() {
-        List<Toy> babyToys = new ArrayList<>();
-        for (Toy i : toys) {
-            if (i.getAgeCategory() >= 0 && i.getAgeCategory() <= 3) {
-                babyToys.add(i);
-            }
-        }
-        return babyToys;
-    }
-
-
-    /**
-     * Prints baby toys.
-     */
-    public void showToysForBaby() {
-        if (findToysForBaby().size() == 0) {
-            view.printMessage(View.getBundleMessage(EMPTY_MSG));
-        } else {
-            for (Toy i : findToysForBaby()) {
-                view.printMessage(i.toString());
-            }
-        }
+        return toys.stream()
+                .filter(i -> i.getAgeCategory() >= lowerBoundary && i.getAgeCategory() <= upperBoundary)
+                .collect(Collectors.toList());
     }
 
     @Override

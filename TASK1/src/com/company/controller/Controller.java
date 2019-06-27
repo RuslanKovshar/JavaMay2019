@@ -1,12 +1,11 @@
 package com.company.controller;
 
-import com.company.model.*;
-
-import static com.company.view.TextConstants.*;
-
+import com.company.model.GameRoom;
 import com.company.view.View;
 
 import java.util.Scanner;
+
+import static com.company.view.TextConstants.*;
 
 public class Controller {
     private GameRoom gameRoom;
@@ -19,12 +18,14 @@ public class Controller {
 
     public void process() {
         Scanner scanner = new Scanner(System.in);
+        ValueInputer valueInputer = new ValueInputer(view,scanner);
 
         /*Set the locale for program*/
-        view.setLocale(inputStringValue(scanner));
+        view.setLocale(valueInputer.inputStringValue(view.CHOOSE_LOCALE));
 
         /*Create class for buying toys*/
-        ToysCreator toysCreator = new ToysCreator(view, gameRoom, scanner, inputDoubleValue(scanner));
+        ToysCreator toysCreator = new ToysCreator(view, gameRoom, valueInputer,
+                valueInputer.inputDoubleValue(View.getBundleMessage(INPUT_VALUE_MSG)));
 
         /*Buy toys*/
         toysCreator.chooseToy();
@@ -39,40 +40,13 @@ public class Controller {
         view.printMessage(gameRoom.toString());
 
         /*Show toys for baby*/
+        //gameRoom.setLowerBoundary(valueInputer.inputIntValue());
+        //gameRoom.setUpperBoundary(valueInputer.inputIntValue());
         view.printMainMessage(View.getBundleMessage(TOYS_FOR_BABY_MSG));
-        gameRoom.showToysForBaby();
+        view.printList(gameRoom.findToysForBaby());
         scanner.close();
     }
 
 
-    /**
-     * Enters value of amount of money.
-     *
-     * @param sc object of scanner class
-     * @return value of amount of money
-     */
-    private double inputDoubleValue(Scanner sc) {
-        view.printMessage(View.getBundleMessage(INPUT_VALUE_MSG));
-        while (!sc.hasNextDouble()) {
-            view.printMessage(View.getBundleMessage(INCORRECT_VALUE_MSG));
-            sc.next();
-        }
-        return sc.nextDouble();
-    }
 
-    /**
-     * Enters value of locale param.
-     *
-     * @param sc object of scanner class
-     * @return value of locale (en or ua only)
-     */
-    private String inputStringValue(Scanner sc) {
-        view.printMessage(view.CHOOSE_LOCALE);
-        String value = sc.next();
-        while (!(value.equals("en") || value.equals("ua"))) {
-            view.printMessage(view.INCORRECT_LOCALE);
-            value = sc.next();
-        }
-        return value;
-    }
 }

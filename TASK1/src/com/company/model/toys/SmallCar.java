@@ -1,9 +1,9 @@
 package com.company.model.toys;
 
-        import com.company.view.View;
+import com.company.view.View;
 
-        import static com.company.view.TextConstants.MODEL_MSG;
-        import static com.company.view.TextConstants.SCALE_MSG;
+import static com.company.view.TextConstants.MODEL_MSG;
+import static com.company.view.TextConstants.SCALE_MSG;
 
 public class SmallCar extends Toy implements ToyCar {
     private String model;

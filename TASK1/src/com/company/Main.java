@@ -7,7 +7,7 @@ import com.company.view.View;
 public class Main {
     public static void main(String[] args) {
         View view = new View();
-        GameRoom gameRoom = new GameRoom(view);
+        GameRoom gameRoom = new GameRoom();
         Controller controller = new Controller(gameRoom, view);
         controller.process();
     }

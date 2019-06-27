@@ -32,6 +32,7 @@ public abstract class Toy implements Comparable<Toy> {
                 View.getBundleMessage(AGE_CATEGORY_MSG) + ageCategory + "\n";
     }
 
+    @Override
     public int compareTo(Toy toy) {
         return Double.compare(this.price, toy.getPrice());
     }

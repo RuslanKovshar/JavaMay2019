@@ -2,7 +2,7 @@ package com.company.model.simple.data.base;
 
 public enum BallTable {
     /*Ball data*/
-    BALL(9.99, 0, "Football", 4);
+    BALL(29.99, 0, "Football", 4);
 
     /*Every toys params*/
     private double price;
