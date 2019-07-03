@@ -5,15 +5,9 @@ import com.company.entity.User;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.spi.ResourceBundleProvider;
 
 @Slf4j
 @Controller
@@ -74,7 +68,7 @@ public class PagesController {
 
     @GetMapping("/international")
     public String getInternationalPage(Model model) {
-        model.addAttribute("greeting",ResourceBundle.getBundle("messages", new Locale("ua", "UA")).getString("greeting"));
+        //model.addAttribute("greeting",ResourceBundle.getBundle("messages", new Locale("ua", "UA")).getString("greeting"));
         return "international";
     }
 }
