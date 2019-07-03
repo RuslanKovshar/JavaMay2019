@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Table( name="user",
         uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
-public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -29,15 +29,10 @@ public class User implements UserDetails {
     @Column(name = "password",nullable = false)
     private String password;
 
+    private boolean active;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name ="user_role" , joinColumns=@JoinColumn(name="user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> authorities;
-
-    private String username;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
-    private boolean enabled;
-
 }

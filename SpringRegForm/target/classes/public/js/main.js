@@ -8,13 +8,13 @@ app.controller("AppCtrl",function ($scope, $http) {
             url: "/registration",
             data: $.param(auth),
             headers: { "Content-Type" : "application/x-www-form-urlencoded" }
-        }).then(
+        })/*.then(
             function(data) {
                 window.alert("Доступ разрешен");
             },
             function(error) {
                 window.alert("Доступ запрещен");
             }
-        );
+        )*/;
     }
 });
