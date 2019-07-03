@@ -5,12 +5,12 @@ import com.company.entity.User;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Slf4j
 @Controller
@@ -27,6 +27,7 @@ public class PagesController {
         model.addAttribute("id",userService.getCurrentUser().getId());
         model.addAttribute("email",userService.getCurrentUser().getEmail());
         model.addAttribute("role",userService.getCurrentUser().getAuthorities());
+        /*test*/
         if ( userService.getCurrentUser().getAuthorities().contains(Role.ADMIN)){
             model.addAttribute("admin",true);
         }else {
