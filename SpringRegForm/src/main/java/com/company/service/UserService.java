@@ -25,24 +25,16 @@ public class UserService {
 
     public boolean saveNewUser(User user) {
         try {
-            checkUnique(user);
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
             user.setActive(true);
             user.setAuthorities(Collections.singleton(Role.USER));
             userRepository.save(user);
             return true;
-        } catch (SQLException e) {
+        } catch (Exception e) {
             //e.printStackTrace();
             log.info("{this e-mail already exist}");
         }
         return false;
-    }
-
-    private void checkUnique(User user) throws SQLException {
-        User userByEmail = userRepository.findUserByEmail(user.getEmail());
-        if (userByEmail != null) {
-            throw new SQLException();
-        }
     }
 
     public UsersDTO getAllUsers() {
@@ -57,5 +49,4 @@ public class UserService {
     public User getCurrentUser() {
         return userRepository.findUserByEmail(getCurrentUsername());
     }
-
 }
