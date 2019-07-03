@@ -10,7 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.spi.ResourceBundleProvider;
 
 @Slf4j
 @Controller
@@ -67,5 +70,11 @@ public class PagesController {
         model.addAttribute("error",error != null);
         model.addAttribute("logout",logout != null);
         return "login";
+    }
+
+    @GetMapping("/international")
+    public String getInternationalPage(Model model) {
+        model.addAttribute("greeting",ResourceBundle.getBundle("messages", new Locale("ua", "UA")).getString("greeting"));
+        return "international";
     }
 }
