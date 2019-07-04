@@ -8,7 +8,6 @@ app.controller("UserCtrl", function ($scope, $http) {
         url: "/get_users",
         headers: {"Content-Type": "application/json"}
     }).then(function(data) {
-        window.alert(data.data.users);
         $scope.users = data.data.users;
     });
 });

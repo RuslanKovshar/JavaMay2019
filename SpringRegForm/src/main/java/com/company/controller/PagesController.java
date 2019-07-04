@@ -2,17 +2,12 @@ package com.company.controller;
 
 import com.company.dto.UserDTO;
 import com.company.entity.Role;
-import com.company.entity.User;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 @Slf4j
 @Controller
@@ -44,7 +39,8 @@ public class PagesController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "registration", method = RequestMethod.POST)
     public String registrUser(UserDTO userDTO, Model model) {
-        if(userService.test(userDTO)) {
+        userService.setUserDTO(userDTO);
+        if(userService.saveNewUser()) {
             model.addAttribute("success",true);
             model.addAttribute("exist",false);
             model.addAttribute("test",false);

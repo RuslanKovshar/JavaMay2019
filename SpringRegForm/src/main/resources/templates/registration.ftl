@@ -2,6 +2,7 @@
 <#import "/spring.ftl" as spring/>
 <@c.common>
 <#--ng-app="registrationForm" ng-controller="AppCtrl"-->
+    <script type="text/javascript" src="../../js/angular.min.js"></script>
     <div class="container">
         <form class="form-signin" <#--action="/registration"--> method="post" name="form" autocomplete="off" novalidate
               ng-submit="form.$valid && sendForm(auth)">
@@ -49,57 +50,7 @@
     </div>
     <#if test>
         <div ng-app="test" ng-controller="testCtrl"></div>
-        <script type="text/javascript" <#--src="../js/test.js"-->>
-            /*document.addEventListener('DOMContentLoaded', function(){
-                var password = document.getElementById("InputEmail");
-                password.value = 11111111;
-                password.style.color = "red";});*/
-            /*       angular.element(document).ready(function ($http) {
-
-                       $http().then(function () {
-                           var password = document.getElementById("InputEmail");
-                           password.value = 11111111;
-                           password.style.color = "red"; })
-
-                       // Your document is ready, place your code here
-                   });
-       */
-
-
-            var app = angular.module("test", []);
-
-            app.controller("testCtrl", function ($scope, $http) {
-                $scope = {};
-               // $http.get("/userDTO").data;
-                $http({
-                    method: "GET",
-                    url: "/userDTO",
-                    headers: {"Content-Type": "application/json"}
-                }).then(function (data) {
-                    $scope.data = data.userDTO;
-                    window.alert($scope.data);
-                    //$scope.users = data.data.users;
-                   // test_user = data.;
-                    /*window.alert(data.data.email);
-                    var password = document.getElementById("InputEmail");
-                    password.value = data.email;
-                    password.style.color = "red";*/
-                });
-            });
-            /*   var app = angular.module('MyApp', []);
-
-               app.controller("AppCtrl",function () {
-                   var htmlElement = document.getElementById("InputEmail");
-                   htmlElement.value = kek;
-                   htmlElement.style.color = "red";
-                   window.alert("kek");
-                   angular.element(document).ready(function () {
-                       window.alert("kek");
-                       //document.getElementById('msg').innerHTML = 'Hello';
-                   });
-               });*/
-        </script>
-
+        <script type="text/javascript" src="../js/test.js"></script>
     </#if>
 
     <script type="text/javascript" src="../js/main.js"></script>
