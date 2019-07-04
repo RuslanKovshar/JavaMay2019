@@ -1,22 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Users</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
-</head>
-
+<#import "parts/common.ftl" as c>
+<#import "/spring.ftl" as spring/>
+<@c.common>
 <body ng-app="users_form" ng-controller="UserCtrl">
 <div class="container">
     <table class="table table-striped" ng-model="users">
         <thead>
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Email</th>
-            <th scope="col">Roles</th>
-            <th scope="col">Active</th>
+            <th scope="col"><@spring.message "table.email"/></th>
+            <th scope="col"><@spring.message "table.role"/></th>
+            <th scope="col"><@spring.message "table.active"/></th>
         </tr>
         </thead>
         <tbody>
@@ -30,10 +23,10 @@
     </table>
     <form action="/">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        <button type="submit" class="btn btn-lg btn-primary btn-block">Back to main page</button>
+        <button type="submit" class="btn btn-lg btn-primary btn-block"><@spring.message "back.button"/></button>
     </form>
 </div>
 <script type="text/javascript" src="../js/angular.min.js"></script>
 <script type="text/javascript" src="../js/users.js"></script>
 </body>
-</html>
+</@c.common>

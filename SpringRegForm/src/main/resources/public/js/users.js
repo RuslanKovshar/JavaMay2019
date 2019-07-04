@@ -3,7 +3,6 @@ var app = angular.module("users_form", []);
 app.controller("UserCtrl", function ($scope, $http) {
     $scope.users = [];
 
-    /*$http.get('/get_users').then(function(data) {*/
     $http({
         method: "GET",
         url: "/get_users",
@@ -11,8 +10,5 @@ app.controller("UserCtrl", function ($scope, $http) {
     }).then(function(data) {
         $scope.users = data.data.users;
     });
-    /*$scope.users = data.data;*/
 });
-/*
-})
-;*/
+

@@ -4,10 +4,14 @@ import com.company.entity.Role;
 import com.company.entity.User;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @Slf4j
 @Controller
@@ -15,7 +19,11 @@ public class PagesController {
 
     private final UserService userService;
 
+    //@Value("${greeting}")
+    //private String greeting;
+
     public PagesController(UserService userService) {
+        //this.greeting = ResourceBundle.getBundle("messages", Locale.getDefault()).getString("greeting");
         this.userService = userService;
     }
 
@@ -64,11 +72,5 @@ public class PagesController {
         model.addAttribute("error",error != null);
         model.addAttribute("logout",logout != null);
         return "login";
-    }
-
-    @GetMapping("/international")
-    public String getInternationalPage(Model model) {
-        //model.addAttribute("greeting",ResourceBundle.getBundle("messages", new Locale("ua", "UA")).getString("greeting"));
-        return "international";
     }
 }

@@ -10,6 +10,7 @@ app.controller("UserCtrl", function ($scope, $http) {
         headers: {"Content-Type": "application/json"}
     }).then(function(data) {
         $scope.users = data.data.users;
+        //window.alert(data.data.users);
     });
     /*$scope.users = data.data;*/
 });
