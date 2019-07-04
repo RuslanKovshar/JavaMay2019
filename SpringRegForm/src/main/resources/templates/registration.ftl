@@ -1,50 +1,106 @@
 <#import "parts/common.ftl" as c>
 <#import "/spring.ftl" as spring/>
 <@c.common>
- <#--ng-app="registrationForm" ng-controller="AppCtrl"-->
-<div class="container">
-    <form class="form-signin" <#--action="/registration"--> method="post" name="form" autocomplete="off" novalidate ng-submit="form.$valid && sendForm(auth)">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-        <#if exist>
-            <div class="alert alert-danger" role="alert"><@spring.message "registr.error"/></div>
-        </#if>
-        <#if success>
-            <div class="alert alert-success" role="alert"><@spring.message "registr.success"/></div>
-        </#if>
-        <div class="form-group">
-            <label for="InputEmail"><@spring.message "email.msg.in.regform"/></label>
-            <input type="email"
-                   class="form-control"
-                   id="InputEmail"
-                   placeholder="Email"
-                   pattern="([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})"
-                   title="Must look like example@mail.com"
-                   required
-                   ng-model="auth.email"
-                    name="email">
-        </div>
-        <div class="form-group">
-            <label for="InputPassword"><@spring.message "password.msg.in.regform"/></label>
-            <input type="password"
-                   class="form-control"
-                   id="InputPassword"
-                   placeholder="Password"
-                   required
-                   ng-model="auth.password"
-            name="password">
-        </div>
+<#--ng-app="registrationForm" ng-controller="AppCtrl"-->
+    <div class="container">
+        <form class="form-signin" <#--action="/registration"--> method="post" name="form" autocomplete="off" novalidate
+              ng-submit="form.$valid && sendForm(auth)">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+            <#if exist>
+                <div class="alert alert-danger" role="alert"><@spring.message "registr.error"/></div>
+            </#if>
+            <#if success>
+                <div class="alert alert-success" role="alert"><@spring.message "registr.success"/></div>
+            </#if>
 
-        <button type="submit" class="btn btn-primary btn-lg btn-block"  style="margin-top:30px" ng-disabled="form.$invalid">
-            <@spring.message "registr.button"/>
-        </button>
-    </form>
+            <div class="form-group">
+                <label for="InputEmail"><@spring.message "email.msg.in.regform"/></label>
+                <input type="email"
+                       class="form-control"
+                       id="InputEmail"
+                       placeholder="Email"
+                       pattern="([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})"
+                       title="Must look like example@mail.com"
+                       required
+                       ng-model="auth.email"
+                       name="email">
+            </div>
+            <div class="form-group">
+                <label for="InputPassword"><@spring.message "password.msg.in.regform"/></label>
+                <input type="password"
+                       class="form-control"
+                       id="InputPassword"
+                       placeholder="Password"
+                       required
+                       ng-model="auth.password"
+                       name="password">
+            </div>
 
-    <form class="form-signin" action="/login">
-    <#--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">-->
-        <button type="submit" class="btn btn-secondary btn-lg btn-block"><@spring.message "back.button"/></button>
-    </form>
-</div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top:30px"
+                    ng-disabled="form.$invalid">
+                <@spring.message "registr.button"/>
+            </button>
+        </form>
 
-<script type="text/javascript" src="../js/angular.min.js"></script>
-<script type="text/javascript" src="../js/main.js"></script>
+        <form class="form-signin" action="/login">
+            <#--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">-->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block"><@spring.message "back.button"/></button>
+        </form>
+    </div>
+    <#if test>
+        <div ng-app="test" ng-controller="testCtrl"></div>
+        <script type="text/javascript" <#--src="../js/test.js"-->>
+            /*document.addEventListener('DOMContentLoaded', function(){
+                var password = document.getElementById("InputEmail");
+                password.value = 11111111;
+                password.style.color = "red";});*/
+            /*       angular.element(document).ready(function ($http) {
+
+                       $http().then(function () {
+                           var password = document.getElementById("InputEmail");
+                           password.value = 11111111;
+                           password.style.color = "red"; })
+
+                       // Your document is ready, place your code here
+                   });
+       */
+
+
+            var app = angular.module("test", []);
+
+            app.controller("testCtrl", function ($scope, $http) {
+                $scope = {};
+               // $http.get("/userDTO").data;
+                $http({
+                    method: "GET",
+                    url: "/userDTO",
+                    headers: {"Content-Type": "application/json"}
+                }).then(function (data) {
+                    $scope.data = data.userDTO;
+                    window.alert($scope.data);
+                    //$scope.users = data.data.users;
+                   // test_user = data.;
+                    /*window.alert(data.data.email);
+                    var password = document.getElementById("InputEmail");
+                    password.value = data.email;
+                    password.style.color = "red";*/
+                });
+            });
+            /*   var app = angular.module('MyApp', []);
+
+               app.controller("AppCtrl",function () {
+                   var htmlElement = document.getElementById("InputEmail");
+                   htmlElement.value = kek;
+                   htmlElement.style.color = "red";
+                   window.alert("kek");
+                   angular.element(document).ready(function () {
+                       window.alert("kek");
+                       //document.getElementById('msg').innerHTML = 'Hello';
+                   });
+               });*/
+        </script>
+
+    </#if>
+
+    <script type="text/javascript" src="../js/main.js"></script>
 </@c.common>

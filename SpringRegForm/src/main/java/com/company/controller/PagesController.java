@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.dto.UserDTO;
 import com.company.entity.Role;
 import com.company.entity.User;
 import com.company.service.UserService;
@@ -42,11 +43,13 @@ public class PagesController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "registration", method = RequestMethod.POST)
-    public String registrUser(User user,Model model) {
-        if(userService.saveNewUser(user)) {
+    public String registrUser(UserDTO userDTO, Model model) {
+        if(userService.test(userDTO)) {
             model.addAttribute("success",true);
             model.addAttribute("exist",false);
+            model.addAttribute("test",false);
         } else {
+            model.addAttribute("test",true);
             model.addAttribute("success",false);
             model.addAttribute("exist",true);
         }
@@ -57,6 +60,7 @@ public class PagesController {
     public String userPage(Model model) {
         model.addAttribute("exist",false);
         model.addAttribute("success",false);
+        model.addAttribute("test",false);
         return "registration";
     }
 

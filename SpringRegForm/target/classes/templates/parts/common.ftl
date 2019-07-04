@@ -10,6 +10,7 @@
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
     <link rel="stylesheet" href="../../css/styles.css"/>
+    <script type="text/javascript" src="../../js/angular.min.js"></script>
 </head>
 <body>
 <header>
