@@ -15,11 +15,7 @@ public class PagesController {
 
     private final UserService userService;
 
-    //@Value("${greeting}")
-    //private String greeting;
-
     public PagesController(UserService userService) {
-        //this.greeting = ResourceBundle.getBundle("messages", Locale.getDefault()).getString("greeting");
         this.userService = userService;
     }
 
@@ -43,9 +39,7 @@ public class PagesController {
         if(userService.saveNewUser()) {
             model.addAttribute("success",true);
             model.addAttribute("exist",false);
-            model.addAttribute("test",false);
         } else {
-            model.addAttribute("test",true);
             model.addAttribute("success",false);
             model.addAttribute("exist",true);
         }
@@ -56,7 +50,6 @@ public class PagesController {
     public String userPage(Model model) {
         model.addAttribute("exist",false);
         model.addAttribute("success",false);
-        model.addAttribute("test",false);
         return "registration";
     }
 

@@ -9,6 +9,8 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <#if exist>
                 <div class="alert alert-danger" role="alert"><@spring.message "registr.error"/></div>
+                <div ng-app="test" ng-controller="testCtrl"></div>
+                <script type="text/javascript" src="../js/test.js"></script>
             </#if>
             <#if success>
                 <div class="alert alert-success" role="alert"><@spring.message "registr.success"/></div>
@@ -48,10 +50,6 @@
             <button type="submit" class="btn btn-secondary btn-lg btn-block"><@spring.message "back.button"/></button>
         </form>
     </div>
-    <#if test>
-        <div ng-app="test" ng-controller="testCtrl"></div>
-        <script type="text/javascript" src="../js/test.js"></script>
-    </#if>
 
     <script type="text/javascript" src="../js/main.js"></script>
 </@c.common>

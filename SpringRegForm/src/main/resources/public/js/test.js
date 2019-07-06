@@ -6,7 +6,6 @@ app.controller("testCtrl", function ($scope, $http) {
         url: "/userDTO",
         headers: {"Content-Type": "application/json"}
     }).then(function(data) {
-        console.log(data);
         var param = document.getElementById("InputEmail");
         param.value = data.data.email;
         param.style.color = "red";

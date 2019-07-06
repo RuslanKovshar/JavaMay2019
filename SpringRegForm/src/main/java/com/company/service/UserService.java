@@ -41,8 +41,8 @@ public class UserService{
     }
 
 
-    public void checkUser() throws IncorrectDataException {
-        //TODO remove BCrypt from constr
+    private void checkUser() throws IncorrectDataException {
+        //TODO remove new BCrypt from constr
         User user = new User(userDTO.getEmail(),
                 new BCryptPasswordEncoder().encode(userDTO.getPassword()),
                 true,
