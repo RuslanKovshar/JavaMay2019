@@ -68,4 +68,9 @@ public class PagesController {
         model.addAttribute("logout",logout != null);
         return "login";
     }
+
+    @GetMapping("/map")
+    public String getMap() {
+        return "map";
+    }
 }
