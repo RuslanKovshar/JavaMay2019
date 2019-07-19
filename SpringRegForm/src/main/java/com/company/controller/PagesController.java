@@ -1,6 +1,7 @@
 package com.company.controller;
 
 import com.company.dto.UserDTO;
+import com.company.entity.Load;
 import com.company.entity.Role;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.*;
 public class PagesController {
 
     private final UserService userService;
+    private final Load load;
 
-    public PagesController(UserService userService) {
+    public PagesController(UserService userService, Load load) {
+        this.load = load;
         this.userService = userService;
     }
 
@@ -70,7 +73,17 @@ public class PagesController {
     }
 
     @GetMapping("/map")
-    public String getMap() {
+    public String getMap(Model model,@RequestParam(name = "price",required = false) Double price) {
+        //model.addAttribute("price",false);
+        model.addAttribute("price", price);
         return "map";
+    }
+
+    @PostMapping("/weight")
+    public String setWeight(@RequestParam(name = "weight") Double weight){
+        load.setWeight(weight);
+        log.info("{}",load.calculateShippingCost());
+       // model.addAttribute("price", weight);
+        return "redirect:/map?price=" + load.calculateShippingCost();
     }
 }
