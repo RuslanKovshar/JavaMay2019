@@ -4,6 +4,7 @@ import com.company.dto.LoadDTO;
 import com.company.dto.UserDTO;
 import com.company.entity.Load;
 import com.company.entity.Role;
+import com.company.service.LoadService;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,18 +18,16 @@ import org.springframework.web.bind.annotation.*;
 public class PagesController {
 
     private final UserService userService;
-    private final Load load;
+    private final LoadService loadService;
 
-    public PagesController(UserService userService, Load load) {
-        this.load = load;
+    public PagesController(UserService userService, LoadService loadService) {
+        this.loadService = loadService;
         this.userService = userService;
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/main")
     public String mainPage(Model model) {
-        model.addAttribute("id",userService.getCurrentUser().getId());
-        model.addAttribute("email",userService.getCurrentUser().getEmail());
-        model.addAttribute("role",userService.getCurrentUser().getAuthorities());
+        model.addAttribute("user",userService.getCurrentUser());
         if ( userService.getCurrentUser().getAuthorities().contains(Role.ADMIN)){
             model.addAttribute("admin",true);
         }else {
@@ -73,34 +72,26 @@ public class PagesController {
         return "login";
     }
 
-    @GetMapping("/map")
+    @GetMapping("/calculate")
     public String getMap(Model model) {
         model.addAttribute("price",false);
         return "calculator";
     }
 
-    @GetMapping("/map/result")
+    @GetMapping("/calculate/result")
     public String getResult(Model model) {
-        model.addAttribute("load",load);
+        model.addAttribute("load",loadService.getLoad());
         return "calc_result";
     }
 
-    @PostMapping("/map")
+    @PostMapping("/calculate")
     public String test(LoadDTO loadDTO) {
-        load.setStartPoint(loadDTO.getStartPoint());
-        load.setEndPoint(loadDTO.getEndPoint());
-        load.setWeight(loadDTO.getWeight());
-        load.calculateShippingCost();
-        log.info("{}",load);
-        return "redirect:/map/result";
+        loadService.createLoad(loadDTO);
+        return "redirect:/calculate/result";
     }
 
-
-    /*@PostMapping("/weight")
-    public String setWeight(@RequestParam(name = "weight") Double weight){
-        load.setWeight(weight);
-        log.info("{}",load.calculateShippingCost());
-       // model.addAttribute("price", weight);
-        return "redirect:/map?price=" + load.calculateShippingCost();
-    }*/
+    @GetMapping("/")
+    public String homePage() {
+        return "home";
+    }
 }

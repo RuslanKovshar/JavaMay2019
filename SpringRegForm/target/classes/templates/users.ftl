@@ -21,7 +21,7 @@
         </tr>
         </tbody>
     </table>
-    <form action="/">
+    <form action="/main">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <button type="submit" class="btn btn-lg btn-primary btn-block"><@spring.message "back.button"/></button>
     </form>

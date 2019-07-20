@@ -6,7 +6,7 @@
         <span><@spring.message "delivery.warning.message"/></span>
     </div>
 
-    <div class="form-group" <#--id="floating-panel"-->>
+    <div class="form-group">
         <h2>
             <@spring.message "delivery.from.message"/> <i>${load.startPoint}</i>
             <@spring.message "delivery.to.message"/> <i>${load.endPoint}</i>
@@ -23,7 +23,7 @@
 
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 6,
-                center: {lat: 49/*41.85*/, lng: 33/*-87.65*/}
+                center: {lat: 49, lng: 33}
             });
             directionsDisplay.setMap(map);
 

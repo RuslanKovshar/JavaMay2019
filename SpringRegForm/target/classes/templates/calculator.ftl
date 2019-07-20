@@ -7,7 +7,7 @@
     </div>
 
     <div class="form-group" <#--id="floating-panel"-->>
-        <form action="/map" method="post">
+        <form action="/calculate" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <label for="start"><@spring.message "from.message"/></label>
             <input id="start" class="form-control" type="text" name="startPoint" autocomplete="off">

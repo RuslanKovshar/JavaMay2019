@@ -13,9 +13,9 @@
         </thead>
         <tbody>
         <tr>
-            <td>${id}</td>
-            <td>${email}</td>
-            <td><#list role as r >${r}<#sep>, </#list></td>
+            <td>${user.id}</td>
+            <td>${user.email}</td>
+            <td><#list user.authorities as r >${r}<#sep>, </#list></td>
         </tr>
         </tbody>
     </table>
