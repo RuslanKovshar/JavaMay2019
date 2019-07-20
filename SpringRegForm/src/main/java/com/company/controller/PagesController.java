@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.dto.LoadDTO;
 import com.company.dto.UserDTO;
 import com.company.entity.Load;
 import com.company.entity.Role;
@@ -73,17 +74,33 @@ public class PagesController {
     }
 
     @GetMapping("/map")
-    public String getMap(Model model,@RequestParam(name = "price",required = false) Double price) {
-        //model.addAttribute("price",false);
-        model.addAttribute("price", price);
-        return "map";
+    public String getMap(Model model) {
+        model.addAttribute("price",false);
+        return "calculator";
     }
 
-    @PostMapping("/weight")
+    @GetMapping("/map/result")
+    public String getResult(Model model) {
+        model.addAttribute("load",load);
+        return "calc_result";
+    }
+
+    @PostMapping("/map")
+    public String test(LoadDTO loadDTO) {
+        load.setStartPoint(loadDTO.getStartPoint());
+        load.setEndPoint(loadDTO.getEndPoint());
+        load.setWeight(loadDTO.getWeight());
+        load.calculateShippingCost();
+        log.info("{}",load);
+        return "redirect:/map/result";
+    }
+
+
+    /*@PostMapping("/weight")
     public String setWeight(@RequestParam(name = "weight") Double weight){
         load.setWeight(weight);
         log.info("{}",load.calculateShippingCost());
        // model.addAttribute("price", weight);
         return "redirect:/map?price=" + load.calculateShippingCost();
-    }
+    }*/
 }

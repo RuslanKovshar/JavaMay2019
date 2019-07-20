@@ -3,7 +3,6 @@ package com.company.controller;
 import com.company.dto.UserDTO;
 import com.company.dto.UsersDTO;
 import com.company.entity.Load;
-import com.company.exceptions.IncorrectDataException;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     private final UserService userService;
+    private final Load load;
 
     @Autowired
-    LoginController(UserService userService) {
+    LoginController(UserService userService, Load load) {
         this.userService = userService;
+        this.load = load;
     }
 
     @RequestMapping(value = "get_users", method = RequestMethod.GET)
@@ -30,4 +31,11 @@ public class LoginController {
     public UserDTO user() {
         return userService.getUserDTO();
     }
+
+    @RequestMapping(value = "test", method = RequestMethod.GET)
+    public double test() {
+        return load.calculateShippingCost();
+    }
+
+
 }

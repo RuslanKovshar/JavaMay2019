@@ -6,39 +6,35 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public class Load {
-    private double weight;
-
     private final int serviceCharge = 25;
+
+    private String startPoint;
+    private String endPoint;
+    private double weight;
+    private double cost;
 
     public double calculateShippingCost() {
         if (weight <= 0.5) {
-            return 40 + serviceCharge;
-        }
-        if (weight <= 1) {
-            return 45 + serviceCharge;
-        }
-        if (weight <= 2) {
-            return 50 + serviceCharge;
-        }
-        if (weight <= 5) {
-            return 55 + serviceCharge;
-        }
-        if (weight <= 10) {
-            return 65 + serviceCharge;
-        }
-        if (weight <= 20) {
-            return 85 + serviceCharge;
-        }
-        if (weight <= 30) {
-            return 105 + serviceCharge;
-        }
-        if (weight > 30) {
-            return 105 + serviceCharge + calculate();
+            cost = 40 + serviceCharge;
+        } else if (weight <= 1) {
+            cost = 45 + serviceCharge;
+        } else if (weight <= 2) {
+            cost = 50 + serviceCharge;
+        } else if (weight <= 5) {
+            cost = 55 + serviceCharge;
+        } else if (weight <= 10) {
+            cost = 65 + serviceCharge;
+        } else if (weight <= 20) {
+            cost = 85 + serviceCharge;
+        } else if (weight <= 30) {
+            cost = 105 + serviceCharge;
+        } else if (weight > 30) {
+            cost = 105 + serviceCharge + calculate();
         }
         return 0;
     }
 
-    public double calculate() {
+    private double calculate() {
         double extraFee = weight - 30;
         return extraFee * 5;
     }
