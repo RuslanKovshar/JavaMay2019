@@ -6,7 +6,7 @@
         <span><@spring.message "info.message"/></span>
     </div>
 
-    <div class="form-group" <#--id="floating-panel"-->>
+    <div class="form-group">
         <form action="/calculate" method="post">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <label for="start"><@spring.message "from.message"/></label>

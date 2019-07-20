@@ -94,4 +94,15 @@ public class PagesController {
     public String homePage() {
         return "home";
     }
+
+    @GetMapping("/user_account")
+    public String getUserAccount() {
+        return "user_account";
+    }
+
+    @PostMapping("/user_account")
+    public String setUserAccount(LoadDTO loadDTO) {
+        log.info("{}",loadDTO);
+        return "user_account";
+    }
 }
