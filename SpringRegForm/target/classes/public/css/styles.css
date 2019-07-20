@@ -6,7 +6,7 @@ header{
     padding: 1%;
     background-color: dodgerblue;
     display:grid;
-    grid-template-columns:1fr auto auto auto;
+    grid-template-columns:1fr auto auto auto auto auto;
 }
 
 .lang{
@@ -20,4 +20,8 @@ header{
 .lang:hover{
     box-shadow: 0 0 5px rgba(0,0,0,0.3); /* Тень */
     background-color: aquamarine;
+}
+
+a{
+    text-decoration: none;
 }

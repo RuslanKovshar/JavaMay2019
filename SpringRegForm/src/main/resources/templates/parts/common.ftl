@@ -14,7 +14,9 @@
 <body>
 <header>
     <h1>Registration Form</h1>
-    <a href="/map"><@spring.message "calculator"/></a>
+    <a href="/calculate"><@spring.message "calculator"/></a>
+    <a href="/main"><h2>login</h2></a>
+    <a href="/registration"><h2>reg</h2></a>
     <a class="lang" href="?lang=en"><@spring.message "lang.eng"></@spring.message></a>
     <a class="lang" href="?lang=ua"><@spring.message "lang.ua"></@spring.message></a>
 </header>
