@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Data
 @NoArgsConstructor
 @Component
-public class Load {
+public class Load implements Baggage{
     private final int serviceCharge = 25;
 
     private String startPoint;
@@ -16,7 +16,12 @@ public class Load {
     private double weight;
     private double cost;
 
-    public double calculateShippingCost() {
+    private double height;
+    private double width;
+    private double length;
+
+    @Override
+    public void calculateShippingCost() {
         if (weight <= 0.5) {
             cost = 40 + serviceCharge;
         } else if (weight <= 1) {
@@ -34,7 +39,6 @@ public class Load {
         } else if (weight > 30) {
             cost = 105 + serviceCharge + calculate();
         }
-        return 0;
     }
 
     private double calculate() {
