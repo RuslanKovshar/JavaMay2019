@@ -1,5 +1,6 @@
 package com.company.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -7,15 +8,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table( name="user",
+@Table( name="users",
         uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class User {
     @Id
@@ -32,14 +34,28 @@ public class User {
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name ="user_role" , joinColumns=@JoinColumn(name="user_id"))
+    @CollectionTable(name ="user_roles" , joinColumns=@JoinColumn(name="user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> authorities;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "user")
+    private Set<Receipt> receipts;
 
     public User(String email, String password, boolean active, Set<Role> authorities) {
         this.email = email;
         this.password = password;
         this.active = active;
         this.authorities = authorities;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                '}';
     }
 }

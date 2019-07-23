@@ -1,7 +1,6 @@
 package com.company.controller;
 
 import com.company.dto.*;
-import com.company.dto.cargo_dto.*;
 import com.company.entity.*;
 import com.company.service.ApplicationService;
 import com.company.service.UserService;
@@ -72,22 +71,21 @@ public class PagesController {
     }
 
     @GetMapping("/calculate")
-    public String getMap(Model model) {
-        model.addAttribute("price",false);
+    public String getMap() {
         return "calculator";
     }
 
- /*   @GetMapping("/calculate/result")
+    @GetMapping("/calculate/result")
     public String getResult(Model model) {
-        model.addAttribute("load",loadService.getLoad());
+        model.addAttribute("result",applicationService.getApplicationCost());
         return "calc_result";
     }
 
     @PostMapping("/calculate")
-    public String test(LoadDTO loadDTO) {
-        loadService.create(loadDTO);
+    public String test(ApplicationDTO applicationDTO) {
+        applicationService.addApplication(applicationDTO);
         return "redirect:/calculate/result";
-    }*/
+    }
 
     @GetMapping("/")
     public String homePage() {

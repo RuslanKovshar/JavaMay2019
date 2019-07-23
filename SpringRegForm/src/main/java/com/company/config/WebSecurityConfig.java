@@ -52,8 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(bcryptPasswordEncoder())
-                .usersByUsernameQuery("select email, password, active from user where email=?;")
-                .authoritiesByUsernameQuery("select u.email, ur. authorities from user u join user_role ur on u.id=ur.user_id where u.email=?;");
+                .usersByUsernameQuery("select email, password, active from users where email=?;")
+                .authoritiesByUsernameQuery("select u.email, ur. authorities from users u join user_roles ur on u.id=ur.user_id where u.email=?;");
     }
 
     @Bean

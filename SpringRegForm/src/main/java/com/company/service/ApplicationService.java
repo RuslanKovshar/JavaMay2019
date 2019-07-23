@@ -1,7 +1,10 @@
 package com.company.service;
 
+import com.company.dto.AppWeightAndCostDTO;
+import com.company.dto.ApplicationDTO;
 import com.company.entity.Application;
 import com.company.entity.Receipt;
+import com.company.entity.User;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +17,11 @@ public class ApplicationService {
 
     private Application application;
 
-    public Receipt createReceipt() {
+    public Receipt createReceipt(User user) {
         return Receipt.builder()
                 .application(application)
                 .cost(calculateCost())
+                .user(user)
                 .build();
     }
 
@@ -47,5 +51,16 @@ public class ApplicationService {
     private double calculateExtraFee() {
         double extraFee = application.getWeight() - 30;
         return extraFee * 4.5;
+    }
+
+    public void addApplication(ApplicationDTO applicationDTO) {
+        application =  Application.builder().weight(applicationDTO.getWeight()).build();
+    }
+
+    public AppWeightAndCostDTO getApplicationCost() {
+        return AppWeightAndCostDTO.builder()
+                .weight(application.getWeight())
+                .cost(calculateCost())
+                .build();
     }
 }

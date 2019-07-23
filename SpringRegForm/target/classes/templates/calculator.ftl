@@ -1,6 +1,6 @@
-<#import "parts/map.ftl" as m>
+<#import "parts/common.ftl" as c>
 <#import "/spring.ftl" as spring/>
-<@m.map>
+<@c.common>
     <div class="head">
         <h2><@spring.message "delivery.cost.message"/></h2>
         <span><@spring.message "info.message"/></span>
@@ -19,4 +19,4 @@
                    value="<@spring.message "calculate.button.message"/>">
         </form>
     </div>
-</@m.map>
+</@c.common>

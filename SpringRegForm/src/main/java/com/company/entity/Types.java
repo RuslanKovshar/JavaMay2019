@@ -1,5 +1,5 @@
 package com.company.entity;
 
 public enum Types {
-    Load,Tires,Document,Pallet;
+    Load,Tires,Documents,Pallets;
 }
