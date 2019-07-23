@@ -34,6 +34,11 @@ public class PagesController {
         return "main";
     }
 
+    @GetMapping("/main/receipts")
+    public String getReceiptsPage() {
+        return "receipts"
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "registration", method = RequestMethod.POST)
     public String registrUser(UserDTO userDTO, Model model) {
