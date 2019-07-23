@@ -18,7 +18,7 @@
             }
        </script>
         <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3TS8IXsmetWH4lbfjc3qDk7hd7VU5UE4&callback=initMap">
+                src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">
         </script>
     </@c.common>
 </#macro>
