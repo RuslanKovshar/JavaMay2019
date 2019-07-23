@@ -24,6 +24,10 @@
         <button type="submit" class="btn btn-lg btn-primary btn-block">Создать заявку</button>
     </form>
 
+    <form action="/main/receipts">
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Просмотреть счета</button>
+    </form>
+
     <#if admin>
         <form action="/all_users">
             <button type="submit" class="btn btn-lg btn-primary btn-block"><@spring.message "show.all.users"/></button>

@@ -3,7 +3,7 @@ package com.company.controller;
 import com.company.dto.*;
 import com.company.dto.cargo_dto.*;
 import com.company.entity.*;
-import com.company.service.LoadService;
+import com.company.service.ApplicationService;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class PagesController {
 
     private final UserService userService;
-    private final LoadService loadService;
+    private final ApplicationService applicationService;
 
-    public PagesController(UserService userService, LoadService loadService) {
-        this.loadService = loadService;
+    public PagesController(UserService userService, ApplicationService applicationService) {
+        this.applicationService = applicationService;
         this.userService = userService;
     }
 
@@ -99,36 +99,10 @@ public class PagesController {
         return "user_account";
     }
 
-    @PostMapping("/user_account/tires")
-    public String setTires(TiresDTO tiresDTO) {
-        log.info("{}", tiresDTO);
-        loadService.create(tiresDTO);
-        loadService.makeCashAccount();
-        return "redirect:/acc";
-    }
-
-    @PostMapping("/user_account/load")
-    public String setLoad(LoadDTO loadDTO) {
-        log.info("{}",loadDTO);
-        loadService.create(loadDTO);
-        loadService.makeCashAccount();
-        return "redirect:/acc";
-    }
-
-    @PostMapping("/user_account/documents")
-    public String setDocuments(DocumentDTO documentDTO) {
-        log.info("{}",documentDTO);
-        loadService.create(documentDTO);
-        loadService.makeCashAccount();
-        return "redirect:/acc";
-    }
-
-    @PostMapping("/user_account/pallets")
-    public String setPallets(PalletDTO palletDTO) {
-        log.info("{}",palletDTO);
-        loadService.create(palletDTO);
-        loadService.makeCashAccount();
-        log.info("{}",palletDTO.getClass().getName());
-        return "redirect:/acc";
+    @PostMapping("/user_account")
+    public String setApplication(Application application) {
+        log.info("{}",application);
+        applicationService.setApplication(application);
+        return "redirect:/main/application";
     }
 }

@@ -2,14 +2,11 @@ package com.company.controller;
 
 import com.company.dto.UserDTO;
 import com.company.dto.UsersDTO;
-import com.company.service.LoadService;
+import com.company.entity.Receipt;
+import com.company.service.ApplicationService;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -17,11 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     private final UserService userService;
-    private final LoadService loadService;
+    private final ApplicationService applicationService;
 
-    @Autowired
-    LoginController(UserService userService,LoadService loadService) {
-        this.loadService = loadService;
+    public LoginController(UserService userService, ApplicationService applicationService) {
+        this.applicationService = applicationService;
         this.userService = userService;
     }
 
@@ -35,8 +31,9 @@ public class LoginController {
         return userService.getUserDTO();
     }
 
-    @RequestMapping(value = "acc",method = RequestMethod.GET)
-    public double acc() {
-        return loadService.getCost();
+
+    @GetMapping("/main/receipts")
+    public Receipt getReceipts() {
+        return applicationService.createReceipt();
     }
 }

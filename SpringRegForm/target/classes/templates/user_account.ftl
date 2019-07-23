@@ -71,6 +71,7 @@
                         <input id="end" class="form-control" type="text" name="endPoint" autocomplete="off"><br>
                     </div>
                 </div>
+
                 <hr>
                 <div class="cargo-container">
                     <div>
@@ -81,6 +82,15 @@
                         <input id="tires"     class="btn btn-secondary" type="button" value="<@spring.message "tires.message"/>">
                         <input id="documents" class="btn btn-secondary" type="button" value="<@spring.message "documents.message"/>">
                         <input id="pallets"   class="btn btn-secondary" type="button" value="<@spring.message "pallets.message"/>">
+                        <input id="type" type="hidden" value="Load" name="type">
+                    </div>
+                    <div class="weight">
+                        <h3>Weight</h3>
+                        <input type="text" name="weight" class="form-control">
+                    </div>
+                    <div class="date">
+                        <h3>Date</h3>
+                        <input id="date-picker" type="date" name="localDate" min="2019-07-23" max="">
                     </div>
                 </div>
                 <div class="display"></div>
@@ -92,6 +102,32 @@
         </div>
     </div>
     <script type="text/javascript">
+        $(function () {
+            var date = new Date();
+            var year = date.getFullYear();
+            var tempMonth = (date.getMonth() + 1);
+            var month = tempMonth < 10 ? '0' + tempMonth : tempMonth;
+            var tempDay = date.getDate() + 1; // +1 to make tomorrow
+            var day = tempDay < 10 ? '0' + tempDay : tempDay;
+            var min = year + '-' + month + '-' + day;
+            $('#date-picker').attr('min',min);
+        });
+
+        $('#load').click(function () {
+            $('#type').val("Load");
+        });
+        $('#tires').click(function () {
+            $('#type').val("Tires");
+        });
+        $('#documents').click(function () {
+            $('#type').val("Documents");
+        });
+        $('#pallets').click(function () {
+            $('#type').val("Pallets");
+        });
+
+    </script>
+    <#--<script type="text/javascript">
 
         var load = function () {
             $('#form').attr({action: "/user_account/load"});
@@ -266,5 +302,5 @@
         document.getElementById('documents').addEventListener('click', documents);
         document.getElementById('tires').addEventListener('click', tires);
         document.getElementById('load').addEventListener('click', load);
-    </script>
+    </script>-->
 </@c.common>
