@@ -20,6 +20,10 @@
         </tbody>
     </table>
 
+    <form action="/main/application">
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Создать заявку</button>
+    </form>
+
     <#if admin>
         <form action="/all_users">
             <button type="submit" class="btn btn-lg btn-primary btn-block"><@spring.message "show.all.users"/></button>

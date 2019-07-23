@@ -1,19 +1,16 @@
 package com.company.controller;
 
 import com.company.dto.*;
+import com.company.dto.cargo_dto.*;
 import com.company.entity.*;
 import com.company.service.LoadService;
 import com.company.service.UserService;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.constraints.NotNull;
 
 @Slf4j
 @Controller
@@ -80,7 +77,7 @@ public class PagesController {
         return "calculator";
     }
 
-    @GetMapping("/calculate/result")
+ /*   @GetMapping("/calculate/result")
     public String getResult(Model model) {
         model.addAttribute("load",loadService.getLoad());
         return "calc_result";
@@ -88,16 +85,16 @@ public class PagesController {
 
     @PostMapping("/calculate")
     public String test(LoadDTO loadDTO) {
-        loadService.createLoad(loadDTO);
+        loadService.create(loadDTO);
         return "redirect:/calculate/result";
-    }
+    }*/
 
     @GetMapping("/")
     public String homePage() {
         return "home";
     }
 
-    @GetMapping("/user_account")
+    @GetMapping("/main/application")
     public String getUserAccount() {
         return "user_account";
     }
@@ -105,24 +102,33 @@ public class PagesController {
     @PostMapping("/user_account/tires")
     public String setTires(TiresDTO tiresDTO) {
         log.info("{}", tiresDTO);
-        return "redirect:/user_account";
+        loadService.create(tiresDTO);
+        loadService.makeCashAccount();
+        return "redirect:/acc";
     }
 
     @PostMapping("/user_account/load")
     public String setLoad(LoadDTO loadDTO) {
         log.info("{}",loadDTO);
-        return "redirect:/user_account";
+        loadService.create(loadDTO);
+        loadService.makeCashAccount();
+        return "redirect:/acc";
     }
 
     @PostMapping("/user_account/documents")
     public String setDocuments(DocumentDTO documentDTO) {
         log.info("{}",documentDTO);
-        return "redirect:/user_account";
+        loadService.create(documentDTO);
+        loadService.makeCashAccount();
+        return "redirect:/acc";
     }
 
     @PostMapping("/user_account/pallets")
     public String setPallets(PalletDTO palletDTO) {
         log.info("{}",palletDTO);
-        return "redirect:/user_account";
+        loadService.create(palletDTO);
+        loadService.makeCashAccount();
+        log.info("{}",palletDTO.getClass().getName());
+        return "redirect:/acc";
     }
 }

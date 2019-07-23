@@ -256,6 +256,8 @@
                 $('.pallet-big').click(function () {
                     $('.pallet-type').val("big");
                 });
+
+                quantity();
             });
         };
 

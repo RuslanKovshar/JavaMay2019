@@ -1,6 +1,6 @@
-package com.company.entity;
+package com.company.entity.cargo;
 
-import lombok.Builder;
+import com.company.dto.cargo_dto.LoadDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -8,20 +8,24 @@ import org.springframework.stereotype.Component;
 @Data
 @NoArgsConstructor
 @Component
-public class Load implements Baggage{
+public class Load implements Baggage {
     private final int serviceCharge = 25;
 
-    private String startPoint;
-    private String endPoint;
     private double weight;
-    private double cost;
-
     private double height;
     private double width;
     private double length;
 
+    public Load(LoadDTO loadDTO) {
+        this.weight = loadDTO.getWeight();
+        this.height = loadDTO.getHeight();
+        this.length = loadDTO.getLength();
+        this.width  = loadDTO.getWidth();
+    }
+
     @Override
-    public void calculateShippingCost() {
+    public double calculateShippingCost() {
+        double cost = 0;
         if (weight <= 0.5) {
             cost = 40 + serviceCharge;
         } else if (weight <= 1) {
@@ -39,12 +43,14 @@ public class Load implements Baggage{
         } else if (weight > 30) {
             cost = 105 + serviceCharge + calculate();
         }
+        return cost;
     }
 
     private double calculate() {
         double extraFee = weight - 30;
         return extraFee * 5;
     }
+
 
 
 }
