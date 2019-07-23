@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.dto.ReceiptsDTO;
 import com.company.dto.UserDTO;
 import com.company.dto.UsersDTO;
 import com.company.entity.Receipt;
@@ -39,14 +40,18 @@ public class LoginController {
         return userService.getUserDTO();
     }
 
-    @GetMapping("/main/receipts")
-    public Receipt getReceipts() {
-        receiptRepository.save(applicationService.createReceipt(userService.getCurrentUser()));
-        return applicationService.createReceipt(userService.getCurrentUser());
+    @GetMapping("/main/get_receipts")
+    public ReceiptsDTO getReceipts() {
+        return applicationService.getReceiptsDTO();
     }
 
     @GetMapping("/main/rip")
     public Set<Receipt> getRec() {
         return userService.getCurrentUser().getReceipts();
+    }
+
+    @PostMapping("/main/save/{index}")
+    public void save(@PathVariable int index) {
+        receiptRepository.save(applicationService.getReceiptsDTO().getReceipts().get(index));
     }
 }

@@ -36,7 +36,7 @@ public class PagesController {
 
     @GetMapping("/main/receipts")
     public String getReceiptsPage() {
-        return "receipts"
+        return "receipts";
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -106,6 +106,9 @@ public class PagesController {
     public String setApplication(Application application) {
         log.info("{}",application);
         applicationService.setApplication(application);
+        applicationService.addReceipt(applicationService.createReceipt(userService.getCurrentUser()));
         return "redirect:/main/application";
     }
+
+
 }

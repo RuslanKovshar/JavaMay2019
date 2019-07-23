@@ -2,6 +2,7 @@ package com.company.service;
 
 import com.company.dto.AppWeightAndCostDTO;
 import com.company.dto.ApplicationDTO;
+import com.company.dto.ReceiptsDTO;
 import com.company.entity.Application;
 import com.company.entity.Receipt;
 import com.company.entity.User;
@@ -16,6 +17,12 @@ public class ApplicationService {
     private final int serviceCharge = 15;
 
     private Application application;
+
+    private ReceiptsDTO receiptsDTO = new ReceiptsDTO();
+
+    public void addReceipt(Receipt receipt) {
+        receiptsDTO.addReceipt(receipt);
+    }
 
     public Receipt createReceipt(User user) {
         return Receipt.builder()
