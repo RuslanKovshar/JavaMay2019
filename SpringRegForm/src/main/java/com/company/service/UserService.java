@@ -11,7 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 
 @Slf4j
@@ -40,13 +42,19 @@ public class UserService{
         return false;
     }
 
-
     private void checkUser() throws IncorrectDataException {
         //TODO remove new BCrypt from constr
-        User user = new User(userDTO.getEmail(),
+    /*    User user = new User(userDTO.getEmail(),
                 new BCryptPasswordEncoder().encode(userDTO.getPassword()),
                 true,
-                Collections.singleton(Role.USER));
+                Collections.singleton(Role.USER));*/
+        User user = User.builder()
+                .email(userDTO.getEmail())
+                .password(new BCryptPasswordEncoder().encode(userDTO.getPassword()))
+                .active(true)
+                .authorities(Collections.singleton(Role.USER))
+                .balance(BigDecimal.ZERO)
+                .build();
         try {
             userRepository.save(user);
         } catch (Exception e) {
@@ -70,5 +78,10 @@ public class UserService{
 
     public UserDTO getUserDTO() {
         return userDTO;
+    }
+
+    @Transactional
+    public void topUpAccount(User user, BigDecimal amount) {
+        user.setBalance(user.getBalance().add(amount));
     }
 }

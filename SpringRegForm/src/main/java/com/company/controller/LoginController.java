@@ -5,6 +5,7 @@ import com.company.dto.UserDTO;
 import com.company.dto.UsersDTO;
 import com.company.entity.Receipt;
 import com.company.entity.Role;
+import com.company.exceptions.TransactionException;
 import com.company.repository.ReceiptRepository;
 import com.company.service.ApplicationService;
 import com.company.service.UserService;
@@ -48,10 +49,5 @@ public class LoginController {
     @GetMapping("/main/rip")
     public Set<Receipt> getRec() {
         return userService.getCurrentUser().getReceipts();
-    }
-
-    @PostMapping("/main/save/{index}")
-    public void save(@PathVariable int index) {
-        receiptRepository.save(applicationService.getReceiptsDTO().getReceipts().get(index));
     }
 }

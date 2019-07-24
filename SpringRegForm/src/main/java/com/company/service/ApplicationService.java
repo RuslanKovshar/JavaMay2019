@@ -6,19 +6,32 @@ import com.company.dto.ReceiptsDTO;
 import com.company.entity.Application;
 import com.company.entity.Receipt;
 import com.company.entity.User;
+import com.company.exceptions.TransactionException;
+import com.company.repository.ReceiptRepository;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
 @Data
 @Service
+@Slf4j
 public class ApplicationService {
     private final int serviceCharge = 15;
 
     private Application application;
 
     private ReceiptsDTO receiptsDTO = new ReceiptsDTO();
+
+    private final ReceiptRepository receiptRepository;
+
+    public ApplicationService(ReceiptRepository receiptRepository) {
+        this.receiptRepository = receiptRepository;
+    }
 
     public void addReceipt(Receipt receipt) {
         receiptsDTO.addReceipt(receipt);
@@ -69,5 +82,36 @@ public class ApplicationService {
                 .weight(application.getWeight())
                 .cost(calculateCost())
                 .build();
+    }
+
+    // MANDATORY: Transaction must be created before.
+    @Transactional(propagation = Propagation.MANDATORY )
+    public void addAmount(User user, BigDecimal cost  /*Long id, double amount*/) throws TransactionException {
+    /*    BankAccount account = this.findById(id);
+        if (account == null) {
+            throw new BankTransactionException("Account not found " + id);
+        }*/
+
+        BigDecimal newBalance = user.getBalance().add(cost);
+
+        if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new TransactionException(
+                    "The money in the account '" + user.getId() + "' is not enough (" + user.getBalance() + ")");
+        }
+        user.setBalance(newBalance);
+    }
+
+    // Do not catch BankTransactionException in this method.
+    @Transactional(propagation = Propagation.REQUIRES_NEW,
+            rollbackFor = TransactionException.class)
+    public void sendMoney(User user, Receipt receipt  /*Long fromAccountId, Long toAccountId, double amount*/) throws TransactionException {
+
+        /*addAmount(toAccountId, amount);
+        addAmount(fromAccountId, -amount);*/
+        addAmount(user,receipt.getCost().multiply(BigDecimal.valueOf(-1)));
+
+        receiptRepository.save(receipt);
+        log.info("{}",user.getBalance());
+        log.info("{saved}");
     }
 }

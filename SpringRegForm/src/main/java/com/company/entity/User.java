@@ -7,6 +7,7 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table( name="users",
         uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class User {
@@ -32,6 +34,7 @@ public class User {
     private String password;
 
     private boolean active;
+    private BigDecimal balance;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name ="user_roles" , joinColumns=@JoinColumn(name="user_id"))
@@ -43,11 +46,12 @@ public class User {
             mappedBy = "user")
     private Set<Receipt> receipts;
 
-    public User(String email, String password, boolean active, Set<Role> authorities) {
+    public User(String email, String password, boolean active, Set<Role> authorities, BigDecimal balance) {
         this.email = email;
         this.password = password;
         this.active = active;
         this.authorities = authorities;
+        this.balance = balance;
     }
 
     @Override

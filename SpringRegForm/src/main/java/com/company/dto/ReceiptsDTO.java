@@ -18,4 +18,8 @@ public class ReceiptsDTO {
     public void addReceipt(Receipt receipt) {
         receipts.add(receipt);
     }
+
+    public void deleteReceipt(int index) {
+        receipts.remove(index);
+    }
 }

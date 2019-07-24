@@ -2,6 +2,7 @@ package com.company.controller;
 
 import com.company.dto.*;
 import com.company.entity.*;
+import com.company.exceptions.TransactionException;
 import com.company.service.ApplicationService;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @Slf4j
 @Controller
@@ -35,7 +38,11 @@ public class PagesController {
     }
 
     @GetMapping("/main/receipts")
-    public String getReceiptsPage() {
+    public String getReceiptsPage(@RequestParam(name = "error", required = false) String error,
+                                  @RequestParam(name = "success",required = false) String success,
+                                  Model model) {
+        model.addAttribute("error",error != null);
+        model.addAttribute("success",success != null);
         return "receipts";
     }
 
@@ -110,5 +117,26 @@ public class PagesController {
         return "redirect:/main/application";
     }
 
+    @PostMapping("/main/save/{index}")
+    public String save(@PathVariable int index) {
+        try {
+            applicationService.sendMoney(userService.getCurrentUser(),applicationService.getReceiptsDTO().getReceipts().get(index));
+            applicationService.getReceiptsDTO().deleteReceipt(index);
+        } catch (TransactionException e) {
+            e.printStackTrace();
+            return "redirect:/main/receipts?error";
+        }
+        return "redirect:/main/receipts?success";
+    }
 
+    @GetMapping("/main/payment")
+    public String getPaymentPage() {
+        return "credit_card";
+    }
+
+    @PostMapping("/main/payment/pay")
+    public String setNewBalance(@RequestParam(name = "amount")BigDecimal amount) {
+        userService.topUpAccount(userService.getCurrentUser(),amount);
+        return "redirect:/main";
+    }
 }

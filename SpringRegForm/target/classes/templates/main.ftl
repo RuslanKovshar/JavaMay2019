@@ -1,7 +1,6 @@
 <#import "/spring.ftl" as spring/>
 <#import "parts/common.ftl" as c>
 <@c.common>
-<div class="container" style="width: 40%;">
     <h2><@spring.message "greeting"/></h2>
     <table class="table table-striped">
         <thead>
@@ -28,6 +27,10 @@
         <button type="submit" class="btn btn-lg btn-primary btn-block">Просмотреть счета</button>
     </form>
 
+    <form action="/main/payment">
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Пополнить счет</button>
+    </form>
+
     <#if admin>
         <form action="/all_users">
             <button type="submit" class="btn btn-lg btn-primary btn-block"><@spring.message "show.all.users"/></button>
@@ -41,5 +44,4 @@
         <button type="submit" class="btn btn-secondary btn-lg btn-block"><@spring.message "logout"/>
         </button>
     </form>
-</div>
 </@c.common>
