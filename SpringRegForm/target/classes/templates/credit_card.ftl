@@ -53,14 +53,13 @@
 
                         <div class="row ">
                             <div class="col-md-12 pad-adjust">
-
                                 <input type="text" class="form-control" placeholder="Name On The Card"/>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12 pad-adjust">
-                                <form action="/main/payment/pay" method="post">
+                                <form action="/account/payment/pay" method="post">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                                     <div class="">
                                         <input type="text" class="form-control" placeholder="Amount of money"
@@ -71,26 +70,16 @@
                             </div>
                         </div>
 
-                        <#--  <div class="row">
-                              <div class="col-md-12 pad-adjust">
-                                  <div class="checkbox">
-                                      <label>
-                                          <input type="checkbox" checked class="text-muted"> Save details for fast payments <a href="#"> learn how ?</a>
-                                      </label>
-                                  </div>
-                              </div>
-                          </div>-->
                         <div class="row">
                             <div class="col-md-12 pad-adjust">
-                                <form action="/main">
+                                <form action="/account">
                                     <input type="submit" class="btn btn-danger btn-block" value="CANCEL"/>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div><!-- ./credit-card-div -->
-
+            </div>
         </div>
     </div>
 </@c.common>

@@ -10,5 +10,9 @@ app.controller("UserCtrl", function ($scope, $http) {
     }).then(function(data) {
         $scope.users = data.data.users;
     });
+
+    $scope.getUrl = function (id) {
+        return '/account/users/' + id + '/account_history';
+    };
 });
 

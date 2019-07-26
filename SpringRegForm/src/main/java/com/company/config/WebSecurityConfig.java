@@ -1,5 +1,6 @@
 package com.company.config;
 
+import com.company.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,7 +16,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import javax.sql.DataSource;
 import java.util.Locale;
 
 @Configuration
@@ -23,23 +23,31 @@ import java.util.Locale;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
-    private DataSource dataSource;
-    WebSecurityConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private final UserService userService;
+
+    public WebSecurityConfig(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/registration","/js/**","/css/**","/login","/userDTO","/calculate/**","/","/user_account/**").permitAll()
+                    .antMatchers("/registration").permitAll()
+                    .antMatchers( "/js/**").permitAll()
+                    .antMatchers( "/login").permitAll()
+                    .antMatchers(  "/userDTO").permitAll()
+                    .antMatchers( "/calculate/**").permitAll()
+                    .antMatchers(  "/").permitAll()
+                    //.antMatchers( "/user_account/**").permitAll()
                     .anyRequest().authenticated()
-                    .and()
-                .formLogin().loginPage("/login")
+                .and()
+                    .formLogin().loginPage("/login")
                     .permitAll()
-                    .and()
-                .logout()
-                    .permitAll().and();
+                .and()
+                    .logout()
+                    .permitAll()
+                .and();
     }
 
     @Bean
@@ -49,11 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(bcryptPasswordEncoder())
-                .usersByUsernameQuery("select email, password, active from users where email=?;")
-                .authoritiesByUsernameQuery("select u.email, ur. authorities from users u join user_roles ur on u.id=ur.user_id where u.email=?;");
+        auth.userDetailsService(userService)
+                .passwordEncoder(bcryptPasswordEncoder());
     }
 
     @Bean
@@ -72,6 +77,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
+        registry.addInterceptor(localeChangeInterceptor()).addPathPatterns("/**");
     }
 }

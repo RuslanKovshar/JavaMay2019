@@ -1,16 +1,10 @@
 package com.company.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -21,7 +15,7 @@ import java.util.Set;
 @Builder
 @Table( name="users",
         uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -54,6 +48,10 @@ public class User {
         this.balance = balance;
     }
 
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -61,5 +59,30 @@ public class User {
                 ", password='" + password + '\'' +
                 ", active=" + active +
                 '}';
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return active;
     }
 }

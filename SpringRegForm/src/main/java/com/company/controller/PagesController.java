@@ -8,14 +8,17 @@ import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
 @Slf4j
 @Controller
+@RequestMapping("/account")
 public class PagesController {
 
     private final UserService userService;
@@ -26,117 +29,72 @@ public class PagesController {
         this.userService = userService;
     }
 
-    @RequestMapping("/main")
-    public String mainPage(Model model) {
-        model.addAttribute("user",userService.getCurrentUser());
-        if ( userService.getCurrentUser().getAuthorities().contains(Role.ADMIN)){
-            model.addAttribute("admin",true);
-        }else {
-            model.addAttribute("admin",false);
-        }
-        return "main";
-    }
-
-    @GetMapping("/main/receipts")
-    public String getReceiptsPage(@RequestParam(name = "error", required = false) String error,
-                                  @RequestParam(name = "success",required = false) String success,
-                                  Model model) {
-        model.addAttribute("error",error != null);
-        model.addAttribute("success",success != null);
-        return "receipts";
-    }
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(value = "registration", method = RequestMethod.POST)
-    public String registrUser(UserDTO userDTO, Model model) {
-        userService.setUserDTO(userDTO);
-        if(userService.saveNewUser()) {
-            model.addAttribute("success",true);
-            model.addAttribute("exist",false);
+    @GetMapping
+    public String mainPage(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
+        if (user.getAuthorities().contains(Role.ADMIN)) {
+            model.addAttribute("admin", true);
         } else {
-            model.addAttribute("success",false);
-            model.addAttribute("exist",true);
+            model.addAttribute("admin", false);
         }
-        return "registration";
+        return "user_page";
     }
 
-    @RequestMapping(value = "registration",method = RequestMethod.GET)
-    public String userPage(Model model) {
-        model.addAttribute("exist",false);
-        model.addAttribute("success",false);
-        return "registration";
+    @GetMapping("/application")
+    public String getUserAccount() {
+        return "application_page";
     }
 
-    @RequestMapping("/all_users")
+    @PostMapping("/application")
+    public String setApplication(@AuthenticationPrincipal User user, Application application, HttpSession session) {
+        log.info("{}", application);
+        applicationService.setApplication(application);
+        applicationService.addReceiptToSession(applicationService.createReceipt(user), session);
+        return "redirect:/account/application";
+    }
+
+    @GetMapping("/all_users")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showAllUsers() {
         return "users";
     }
 
-    @RequestMapping("/login")
-    public String getLoginPage(@RequestParam(name = "error", required = false) String error,
-                               @RequestParam(name = "logout",required = false) String logout,
-                               Model model) {
-        model.addAttribute("error",error != null);
-        model.addAttribute("logout",logout != null);
-        return "login";
+    @GetMapping("/shopping_basket")
+    public String getReceiptsPage(@RequestParam(name = "error", required = false) String error,
+                                  @RequestParam(name = "success", required = false) String success,
+                                  Model model) {
+        model.addAttribute("error", error != null);
+        model.addAttribute("success", success != null);
+        return "shopping_basket";
     }
 
-    @GetMapping("/calculate")
-    public String getMap() {
-        return "calculator";
-    }
-
-    @GetMapping("/calculate/result")
-    public String getResult(Model model) {
-        model.addAttribute("result",applicationService.getApplicationCost());
-        return "calc_result";
-    }
-
-    @PostMapping("/calculate")
-    public String test(ApplicationDTO applicationDTO) {
-        applicationService.addApplication(applicationDTO);
-        return "redirect:/calculate/result";
-    }
-
-    @GetMapping("/")
-    public String homePage() {
-        return "home";
-    }
-
-    @GetMapping("/main/application")
-    public String getUserAccount() {
-        return "user_account";
-    }
-
-    @PostMapping("/user_account")
-    public String setApplication(Application application) {
-        log.info("{}",application);
-        applicationService.setApplication(application);
-        applicationService.addReceipt(applicationService.createReceipt(userService.getCurrentUser()));
-        return "redirect:/main/application";
-    }
-
-    @PostMapping("/main/save/{index}")
-    public String save(@PathVariable int index) {
+    @PostMapping("/save/{index}")
+    public String save(@PathVariable int index, HttpSession session) {
+        Receipt receipt = applicationService.getReceiptFromSession(index, session);
         try {
-            applicationService.sendMoney(userService.getCurrentUser(),applicationService.getReceiptsDTO().getReceipts().get(index));
-            applicationService.getReceiptsDTO().deleteReceipt(index);
+            applicationService.sendMoney(userService.getCurrentUser(), receipt);
+            applicationService.deleteReceiptFromSession(receipt, session);
         } catch (TransactionException e) {
             e.printStackTrace();
-            return "redirect:/main/receipts?error";
+            return "redirect:/account/shopping_basket?error";
         }
-        return "redirect:/main/receipts?success";
+        return "redirect:/account/shopping_basket?success";
     }
 
-    @GetMapping("/main/payment")
+    @GetMapping("/payment")
     public String getPaymentPage() {
         return "credit_card";
     }
 
-    @PostMapping("/main/payment/pay")
-    public String setNewBalance(@RequestParam(name = "amount")BigDecimal amount) {
-        userService.topUpAccount(userService.getCurrentUser(),amount);
-        return "redirect:/main";
+    @PostMapping("/payment/pay")
+    public String setNewBalance(@RequestParam(name = "amount") BigDecimal amount) {
+        userService.topUpAccount(userService.getCurrentUser(), amount);
+        return "redirect:/account";
+    }
+
+    @GetMapping("/users/{id}/account_history")
+    public String getUserReceiptsHistory(@PathVariable(name = "id") Long id, Model model) {
+        model.addAttribute("id", id);
+        return "account_history";
     }
 }

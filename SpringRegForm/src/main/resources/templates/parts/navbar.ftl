@@ -9,11 +9,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/"><@spring.message "home"/></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/calculate"><@spring.message "calculator.message"/></a>
             </li>
+            <#if authenticated>
+                <li class="nav-item">
+                    <a class="nav-link" href="/account"><@spring.message "account"/></a>
+                </li>
+            </#if>
         </ul>
 
         <div class="dropdown my-2 my-lg-0">
@@ -28,19 +33,14 @@
             </div>
         </div>
 
-
-        <#if know>
-            <#assign
-            user = Session.SPRING_SECURITY_CONTEXT.authentication.principal
-            name = user.getUsername()
-            >
-            <div class="nav-link mx-4"><a href="/main" style="text-decoration: none;">${name}</a></div>
+        <#if authenticated>
+            <div class="nav-link mx-4"><a href="/account" style="text-decoration: none;">${name}</a></div>
             <form action="/logout" class="form-inline my-2 my-lg-0"  method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                 <button class="btn btn-outline-warning my-2 my-sm-0" type="submit"><@spring.message "logout"/></button>
             </form>
         <#else>
-            <form action="/main" class="form-inline my-2 my-lg-0">
+            <form action="/account" class="form-inline my-2 my-lg-0">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><@spring.message "sign.in"/></button>
             </form>
         </#if>

@@ -1,53 +1,49 @@
 package com.company.controller;
 
-import com.company.dto.ReceiptsDTO;
 import com.company.dto.UserDTO;
-import com.company.dto.UsersDTO;
-import com.company.entity.Receipt;
-import com.company.entity.Role;
-import com.company.exceptions.TransactionException;
-import com.company.repository.ReceiptRepository;
-import com.company.service.ApplicationService;
 import com.company.service.UserService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
-
-@Slf4j
-@RestController
-@RequestMapping(value = "/")
+@Controller
 public class LoginController {
-
     private final UserService userService;
-    private final ApplicationService applicationService;
 
-    private final ReceiptRepository receiptRepository;
-
-    public LoginController(UserService userService, ApplicationService applicationService, ReceiptRepository receiptRepository) {
-        this.applicationService = applicationService;
+    public LoginController(UserService userService) {
         this.userService = userService;
-        this.receiptRepository = receiptRepository;
     }
 
-    @RequestMapping(value = "get_users", method = RequestMethod.GET)
-    public UsersDTO userList() {
-        return userService.getAllUsers();
+   // @ResponseStatus(HttpStatus.CREATED)
+   // @RequestMapping(value = "registration", method = RequestMethod.POST)
+    @PostMapping("/registration")
+    public String registrUser(UserDTO userDTO, Model model) {
+        userService.setUserDTO(userDTO);
+        if (userService.saveNewUser()) {
+            model.addAttribute("success", true);
+            model.addAttribute("exist", false);
+        } else {
+            model.addAttribute("success", false);
+            model.addAttribute("exist", true);
+        }
+        return "registration";
     }
 
-    @RequestMapping(value = "userDTO", method = RequestMethod.GET)
-    public UserDTO user() {
-        return userService.getUserDTO();
+    //@RequestMapping(value = "registration", method = RequestMethod.GET)
+    @GetMapping("/registration")
+    public String userPage(Model model) {
+        model.addAttribute("exist", false);
+        model.addAttribute("success", false);
+        return "registration";
     }
 
-    @GetMapping("/main/get_receipts")
-    public ReceiptsDTO getReceipts() {
-        return applicationService.getReceiptsDTO();
-    }
-
-    @GetMapping("/main/rip")
-    public Set<Receipt> getRec() {
-        return userService.getCurrentUser().getReceipts();
+    @RequestMapping("/login")
+    public String getLoginPage(@RequestParam(name = "error", required = false) String error,
+                               @RequestParam(name = "logout", required = false) String logout,
+                               Model model) {
+        model.addAttribute("error", error != null);
+        model.addAttribute("logout", logout != null);
+        return "login";
     }
 }

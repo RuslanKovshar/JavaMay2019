@@ -1,7 +1,6 @@
 <#import "parts/common.ftl" as c>
 <#import "/spring.ftl" as spring/>
 <@c.common>
-<#--ng-app="registrationForm" ng-controller="AppCtrl"-->
     <script type="text/javascript" src="../../js/angular.min.js"></script>
     <div class="container">
         <form class="form-signin" <#--action="/registration"--> method="post" name="form" autocomplete="off" novalidate
@@ -28,6 +27,7 @@
                        ng-model="auth.email"
                        name="email">
             </div>
+
             <div class="form-group">
                 <label for="InputPassword"><@spring.message "password.msg.in.regform"/></label>
                 <input type="password"
@@ -39,15 +39,14 @@
                        name="password">
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top:30px"
+            <button type="submit" class="btn btn-dark btn-lg btn-block"
                     ng-disabled="form.$invalid">
                 <@spring.message "registr.button"/>
             </button>
         </form>
 
         <form class="form-signin" action="/login">
-            <#--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">-->
-            <button type="submit" class="btn btn-secondary btn-lg btn-block"><@spring.message "back.button"/></button>
+            <button type="submit" class="btn btn-success btn-lg btn-block"><@spring.message "back.button"/></button>
         </form>
     </div>
 

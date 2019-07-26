@@ -10,11 +10,11 @@ import com.company.exceptions.TransactionException;
 import com.company.repository.ReceiptRepository;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
 @Data
@@ -33,8 +33,25 @@ public class ApplicationService {
         this.receiptRepository = receiptRepository;
     }
 
-    public void addReceipt(Receipt receipt) {
+    public void addReceiptToSession(Receipt receipt, HttpSession session) {
+        ReceiptsDTO receiptsDTO = (ReceiptsDTO) session.getAttribute("receipts");
+        if (receiptsDTO == null) {
+            receiptsDTO = new ReceiptsDTO();
+            session.setAttribute("receipts", receiptsDTO);
+        }
         receiptsDTO.addReceipt(receipt);
+        session.setAttribute("receipts", receiptsDTO);
+    }
+
+    public Receipt getReceiptFromSession(int index, HttpSession session) {
+        ReceiptsDTO receiptsDTO = (ReceiptsDTO) session.getAttribute("receipts");
+        return receiptsDTO.getReceipts().get(index);
+    }
+
+    public void deleteReceiptFromSession(Receipt receipt, HttpSession session) {
+        ReceiptsDTO receiptsDTO = (ReceiptsDTO) session.getAttribute("receipts");
+        receiptsDTO.getReceipts().remove(receipt);
+        session.setAttribute("receipts", receiptsDTO);
     }
 
     public Receipt createReceipt(User user) {
@@ -74,7 +91,9 @@ public class ApplicationService {
     }
 
     public void addApplication(ApplicationDTO applicationDTO) {
-        application =  Application.builder().weight(applicationDTO.getWeight()).build();
+        application = Application.builder()
+                .weight(applicationDTO.getWeight())
+                .build();
     }
 
     public AppWeightAndCostDTO getApplicationCost() {
@@ -85,7 +104,7 @@ public class ApplicationService {
     }
 
     // MANDATORY: Transaction must be created before.
-    @Transactional(propagation = Propagation.MANDATORY )
+    @Transactional(propagation = Propagation.MANDATORY)
     public void addAmount(User user, BigDecimal cost  /*Long id, double amount*/) throws TransactionException {
     /*    BankAccount account = this.findById(id);
         if (account == null) {
@@ -108,10 +127,10 @@ public class ApplicationService {
 
         /*addAmount(toAccountId, amount);
         addAmount(fromAccountId, -amount);*/
-        addAmount(user,receipt.getCost().multiply(BigDecimal.valueOf(-1)));
+        addAmount(user, receipt.getCost().multiply(BigDecimal.valueOf(-1)));
 
         receiptRepository.save(receipt);
-        log.info("{}",user.getBalance());
+        log.info("{}", user.getBalance());
         log.info("{saved}");
     }
 }

@@ -9,6 +9,9 @@ import com.company.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +21,7 @@ import java.util.Collections;
 
 @Slf4j
 @Service
-public class UserService{
+public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
 
@@ -44,10 +47,6 @@ public class UserService{
 
     private void checkUser() throws IncorrectDataException {
         //TODO remove new BCrypt from constr
-    /*    User user = new User(userDTO.getEmail(),
-                new BCryptPasswordEncoder().encode(userDTO.getPassword()),
-                true,
-                Collections.singleton(Role.USER));*/
         User user = User.builder()
                 .email(userDTO.getEmail())
                 .password(new BCryptPasswordEncoder().encode(userDTO.getPassword()))
@@ -83,5 +82,14 @@ public class UserService{
     @Transactional
     public void topUpAccount(User user, BigDecimal amount) {
         user.setBalance(user.getBalance().add(amount));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return userRepository.findUserByEmail(s);
+    }
+
+    public User loadUserById(Long id) {
+        return userRepository.findUserById(id);
     }
 }
