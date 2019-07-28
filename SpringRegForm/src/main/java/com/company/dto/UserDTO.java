@@ -1,7 +1,8 @@
 package com.company.dto;
 
 import lombok.*;
-import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -9,8 +10,11 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Builder
 @ToString
-
 public class UserDTO {
+
+    @NotBlank
     private String email;
+
+    @NotBlank
     private String password;
 }

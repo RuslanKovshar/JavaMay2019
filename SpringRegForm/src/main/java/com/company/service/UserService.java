@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +27,11 @@ public class UserService implements UserDetailsService {
 
     private UserDTO userDTO;
 
-    UserService(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void setUserDTO(UserDTO userDTO) {
@@ -46,10 +49,9 @@ public class UserService implements UserDetailsService {
     }
 
     private void checkUser() throws IncorrectDataException {
-        //TODO remove new BCrypt from constr
         User user = User.builder()
                 .email(userDTO.getEmail())
-                .password(new BCryptPasswordEncoder().encode(userDTO.getPassword()))
+                .password(passwordEncoder.encode(userDTO.getPassword()))
                 .active(true)
                 .authorities(Collections.singleton(Role.USER))
                 .balance(BigDecimal.ZERO)

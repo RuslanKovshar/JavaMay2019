@@ -8,13 +8,22 @@ app.controller("AppCtrl",function ($scope, $http) {
             url: "/registration",
             data: $.param(auth),
             headers: { "Content-Type" : "application/x-www-form-urlencoded" }
-        })/*.then(
+        }).then(
             function(data) {
                 window.alert("Доступ разрешен");
             },
             function(error) {
+                $http({
+                    method: "GET",
+                    url: "/userDTO",
+                    headers: {"Content-Type": "application/json"}
+                }).then(function(data) {
+                    let param = document.getElementById("InputEmail");
+                    param.setAttribute("class","form-control is-invalid");
+                    param.value = data.data.email;
+                });
                 window.alert("Доступ запрещен");
             }
-        )*/;
+        );
     }
 });

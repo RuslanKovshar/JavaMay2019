@@ -25,8 +25,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
     private final UserService userService;
 
-    public WebSecurityConfig(UserService userService) {
+    private final PasswordEncoder passwordEncoder;
+
+    public WebSecurityConfig(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -50,15 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .and();
     }
 
-    @Bean
-    public PasswordEncoder bcryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-                .passwordEncoder(bcryptPasswordEncoder());
+                .passwordEncoder(passwordEncoder);
     }
 
     @Bean

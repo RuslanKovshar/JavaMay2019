@@ -13,7 +13,11 @@
             </#if>
             <p>
                 <label for="username" class="sr-only">Email</label>
-                <input type="text" id="username" name="username" class="form-control" placeholder="Email" required
+                <input type="text" id="username" name="username" class="form-control"
+                       placeholder="Email"
+                       pattern="([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})"
+                       title="Must look like example@mail.com"
+                       required
                        autofocus>
             </p>
             <p>

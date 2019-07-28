@@ -5,7 +5,14 @@ import com.company.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Controller
 public class LoginController {
@@ -18,23 +25,27 @@ public class LoginController {
    // @ResponseStatus(HttpStatus.CREATED)
    // @RequestMapping(value = "registration", method = RequestMethod.POST)
     @PostMapping("/registration")
-    public String registrUser(UserDTO userDTO, Model model) {
+    public String registrUser(@Valid UserDTO userDTO, BindingResult bindingResult, Model model) {
         userService.setUserDTO(userDTO);
-        if (userService.saveNewUser()) {
-            model.addAttribute("success", true);
-            model.addAttribute("exist", false);
+        if (bindingResult.hasErrors()){
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("userDTO",userDTO);
         } else {
-            model.addAttribute("success", false);
-            model.addAttribute("exist", true);
+            userService.saveNewUser();// return "redirect:/registration?success";
+// return "redirect:/registration?exist";
         }
-        return "registration";
+        return "redirect:/registration";
     }
+
 
     //@RequestMapping(value = "registration", method = RequestMethod.GET)
     @GetMapping("/registration")
-    public String userPage(Model model) {
-        model.addAttribute("exist", false);
-        model.addAttribute("success", false);
+    public String userPage(@RequestParam(name = "exist", required = false) String exist,
+                           @RequestParam(name = "success", required = false) String success,
+                           Model model) {
+        model.addAttribute("exist", exist != null);
+        model.addAttribute("success", success != null);
         return "registration";
     }
 

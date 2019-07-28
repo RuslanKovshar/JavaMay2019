@@ -105,14 +105,8 @@ public class ApplicationService {
 
     // MANDATORY: Transaction must be created before.
     @Transactional(propagation = Propagation.MANDATORY)
-    public void addAmount(User user, BigDecimal cost  /*Long id, double amount*/) throws TransactionException {
-    /*    BankAccount account = this.findById(id);
-        if (account == null) {
-            throw new BankTransactionException("Account not found " + id);
-        }*/
-
+    public void addAmount(User user, BigDecimal cost) throws TransactionException {
         BigDecimal newBalance = user.getBalance().add(cost);
-
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new TransactionException(
                     "The money in the account '" + user.getId() + "' is not enough (" + user.getBalance() + ")");
@@ -123,14 +117,8 @@ public class ApplicationService {
     // Do not catch BankTransactionException in this method.
     @Transactional(propagation = Propagation.REQUIRES_NEW,
             rollbackFor = TransactionException.class)
-    public void sendMoney(User user, Receipt receipt  /*Long fromAccountId, Long toAccountId, double amount*/) throws TransactionException {
-
-        /*addAmount(toAccountId, amount);
-        addAmount(fromAccountId, -amount);*/
+    public void sendMoney(User user, Receipt receipt) throws TransactionException {
         addAmount(user, receipt.getCost().multiply(BigDecimal.valueOf(-1)));
-
         receiptRepository.save(receipt);
-        log.info("{}", user.getBalance());
-        log.info("{saved}");
     }
 }
