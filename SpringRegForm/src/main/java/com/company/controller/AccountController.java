@@ -1,30 +1,34 @@
 package com.company.controller;
 
-import com.company.dto.*;
-import com.company.entity.*;
+import com.company.dto.ApplicationDTO;
+import com.company.entity.Receipt;
+import com.company.entity.Role;
+import com.company.entity.User;
 import com.company.exceptions.TransactionException;
 import com.company.service.ApplicationService;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Slf4j
 @Controller
 @RequestMapping("/account")
-public class PagesController {
+public class AccountController {
 
     private final UserService userService;
     private final ApplicationService applicationService;
 
-    public PagesController(UserService userService, ApplicationService applicationService) {
+    public AccountController(UserService userService, ApplicationService applicationService) {
         this.applicationService = applicationService;
         this.userService = userService;
     }
@@ -46,10 +50,20 @@ public class PagesController {
     }
 
     @PostMapping("/application")
-    public String setApplication(@AuthenticationPrincipal User user, Application application, HttpSession session) {
-        log.info("{}", application);
-        applicationService.setApplication(application);
-        applicationService.addReceiptToSession(applicationService.createReceipt(user), session);
+    public String setApplication(@AuthenticationPrincipal User user,
+                                 @Valid ApplicationDTO applicationDTO,
+                                 BindingResult bindingResult,
+                                 Model model,
+                                 HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("applicationDTO", applicationDTO);
+            return "application_page";
+        } else {
+            applicationService.addApplication(applicationDTO);
+            applicationService.addReceiptToSession(applicationService.createReceipt(user), session);
+        }
         return "redirect:/account/application";
     }
 

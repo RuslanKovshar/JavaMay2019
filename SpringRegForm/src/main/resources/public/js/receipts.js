@@ -7,8 +7,7 @@ app.controller("ReceiptsCtrl", function ($scope, $http) {
         method: "GET",
         url: "/account/get_receipts",
         headers: {"Content-Type": "application/json"}
-    }).then(function(data) {
-        console.log(data.data);
+    }).then(function (data) {
         $scope.receipts = data.data.receipts;
     });
 

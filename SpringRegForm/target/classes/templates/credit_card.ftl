@@ -65,7 +65,7 @@
                                         <input type="text" class="form-control" placeholder="Amount of money"
                                                name="amount"/>
                                     </div>
-                                        <input type="submit" class="btn btn-warning btn-block mt-3" value="PAY NOW"/>
+                                    <input type="submit" class="btn btn-warning btn-block mt-3" value="PAY NOW"/>
                                 </form>
                             </div>
                         </div>

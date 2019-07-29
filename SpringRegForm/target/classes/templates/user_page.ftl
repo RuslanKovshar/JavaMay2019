@@ -21,7 +21,8 @@
     </table>
 
     <form action="/account/application">
-        <button type="submit" class="btn btn-lg btn-dark btn-block mt-2"><@spring.message "create.application"/></button>
+        <button type="submit"
+                class="btn btn-lg btn-dark btn-block mt-2"><@spring.message "create.application"/></button>
     </form>
 
     <form action="/account/shopping_basket">
@@ -39,7 +40,8 @@
 
     <#if admin>
         <form action="/account/all_users">
-            <button type="submit" class="btn btn-lg btn-dark btn-block mt-2"><@spring.message "show.all.users"/></button>
+            <button type="submit"
+                    class="btn btn-lg btn-dark btn-block mt-2"><@spring.message "show.all.users"/></button>
         </form>
     </#if>
 

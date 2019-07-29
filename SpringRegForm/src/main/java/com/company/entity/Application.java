@@ -30,16 +30,10 @@ public class Application {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate localDate;
 
+    @Column(name = "address")
+    private String deliveryAddress;
+
     @JsonIgnore
     @OneToOne(mappedBy = "application")
     private Receipt application;
-
-    @Override
-    public String toString() {
-        return "Application{" +
-                "weight=" + weight +
-                ", type=" + type +
-                ", localDate=" + localDate +
-                '}';
-    }
 }

@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -37,12 +36,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
         http
                 .authorizeRequests()
                     .antMatchers("/registration").permitAll()
-                    .antMatchers( "/js/**").permitAll()
-                    .antMatchers( "/login").permitAll()
-                    .antMatchers(  "/userDTO").permitAll()
-                    .antMatchers( "/calculate/**").permitAll()
-                    .antMatchers(  "/").permitAll()
-                    //.antMatchers( "/user_account/**").permitAll()
+                    .antMatchers("/js/**").permitAll()
+                    .antMatchers("/login").permitAll()
+                    .antMatchers("/userDTO").permitAll()
+                    .antMatchers("/calculate/**").permitAll()
+                    .antMatchers("/").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/login")

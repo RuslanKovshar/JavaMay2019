@@ -9,16 +9,18 @@
         </div>
     </div>
 
-    <div class="card my-2">
+    <div class="card my-2 p-3">
         <form action="/calculate" method="post">
-            <div class="row">
-                <div class="col-sm">
-                    <label for="start"><@spring.message "from.message"/></label>
-                    <input id="start" class="form-control" type="text" name="startPoint" autocomplete="off">
+            <div class="row my-3">
+                <div class="col-6 col-md-4">
+                    <h2><@spring.message "delivery.address.message"/></h2>
                 </div>
-                <div class="col-sm">
-                    <label for="end"><@spring.message "where.message"/></label for="end">
-                    <input id="end" class="form-control" type="text" name="endPoint" autocomplete="off"><br>
+                <div class="col-12 col-md-8">
+                    <input class="form-control ${(deliveryAddressError??)?string('is-invalid','')}" type="text"
+                           name="deliveryAddress" value="<#if applicationDTO??>${applicationDTO.deliveryAddress}</#if>">
+                    <#if deliveryAddressError??>
+                        <div class="invalid-feedback">${deliveryAddressError}</div>
+                    </#if>
                 </div>
             </div>
             <div class="row my-3">
@@ -26,7 +28,12 @@
                     <h3><@spring.message "actual.weight.message"/></h3>
                 </div>
                 <div class="col-12 col-md-8">
-                    <input type="text" name="weight" class="form-control">
+                    <input type="text" name="weight"
+                           class="form-control ${(weightError??)?string('is-invalid','')}"
+                           value="<#if applicationDTO??>${applicationDTO.weight!}</#if>">
+                    <#if weightError??>
+                        <div class="invalid-feedback">${weightError}</div>
+                    </#if>
                 </div>
             </div>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">

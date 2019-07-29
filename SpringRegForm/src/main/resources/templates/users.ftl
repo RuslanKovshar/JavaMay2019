@@ -1,7 +1,7 @@
 <#import "parts/common.ftl" as c>
 <#import "/spring.ftl" as spring/>
 <@c.common>
-<body ng-app="users_form" ng-controller="UserCtrl">
+    <body ng-app="users_form" ng-controller="UserCtrl">
     <table class="table table-striped" ng-model="users">
         <thead>
         <tr>
@@ -27,7 +27,7 @@
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <button type="submit" class="btn btn-lg btn-warning btn-block"><@spring.message "back.button"/></button>
     </form>
-<script type="text/javascript" src="../js/angular.min.js"></script>
-<script type="text/javascript" src="../js/users.js"></script>
-</body>
+    <script type="text/javascript" src="../js/angular.min.js"></script>
+    <script type="text/javascript" src="../js/users.js"></script>
+    </body>
 </@c.common>

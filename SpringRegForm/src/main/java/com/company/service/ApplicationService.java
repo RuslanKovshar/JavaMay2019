@@ -1,6 +1,6 @@
 package com.company.service;
 
-import com.company.dto.AppWeightAndCostDTO;
+import com.company.dto.AppWeightAddressDTO;
 import com.company.dto.ApplicationDTO;
 import com.company.dto.ReceiptsDTO;
 import com.company.entity.Application;
@@ -24,8 +24,6 @@ public class ApplicationService {
     private final int serviceCharge = 15;
 
     private Application application;
-
-    private ReceiptsDTO receiptsDTO = new ReceiptsDTO();
 
     private final ReceiptRepository receiptRepository;
 
@@ -93,11 +91,21 @@ public class ApplicationService {
     public void addApplication(ApplicationDTO applicationDTO) {
         application = Application.builder()
                 .weight(applicationDTO.getWeight())
+                .type(applicationDTO.getType())
+                .localDate(applicationDTO.getLocalDate())
+                .deliveryAddress(applicationDTO.getDeliveryAddress())
                 .build();
     }
 
-    public AppWeightAndCostDTO getApplicationCost() {
-        return AppWeightAndCostDTO.builder()
+    public void addApplication(AppWeightAddressDTO applicationDTO) {
+        application = Application.builder()
+                .weight(applicationDTO.getWeight())
+                .deliveryAddress(applicationDTO.getDeliveryAddress())
+                .build();
+    }
+
+    public AppWeightAddressDTO getApplicationCost() {
+        return AppWeightAddressDTO.builder()
                 .weight(application.getWeight())
                 .cost(calculateCost())
                 .build();
@@ -114,7 +122,6 @@ public class ApplicationService {
         user.setBalance(newBalance);
     }
 
-    // Do not catch BankTransactionException in this method.
     @Transactional(propagation = Propagation.REQUIRES_NEW,
             rollbackFor = TransactionException.class)
     public void sendMoney(User user, Receipt receipt) throws TransactionException {

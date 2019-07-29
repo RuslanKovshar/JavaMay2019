@@ -5,9 +5,9 @@ app.controller("uniqueEmailCtrl", function ($scope, $http) {
         method: "GET",
         url: "/userDTO",
         headers: {"Content-Type": "application/json"}
-    }).then(function(data) {
+    }).then(function (data) {
         let param = document.getElementById("InputEmail");
-        param.setAttribute("class","form-control is-invalid");
+        param.setAttribute("class", "form-control is-invalid");
         param.value = data.data.email;
     });
 });

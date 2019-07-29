@@ -7,7 +7,7 @@ app.controller("UserCtrl", function ($scope, $http) {
         method: "GET",
         url: "/get_users",
         headers: {"Content-Type": "application/json"}
-    }).then(function(data) {
+    }).then(function (data) {
         $scope.users = data.data.users;
     });
 

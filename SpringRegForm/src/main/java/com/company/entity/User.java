@@ -13,8 +13,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table( name="users",
-        uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
+@Table(name = "users",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,14 +24,14 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
 
-    @Column(name = "password",nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     private boolean active;
     private BigDecimal balance;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name ="user_roles" , joinColumns=@JoinColumn(name="user_id"))
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> authorities;
 

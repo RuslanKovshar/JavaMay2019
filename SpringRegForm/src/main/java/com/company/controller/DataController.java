@@ -4,6 +4,7 @@ import com.company.dto.ReceiptsDTO;
 import com.company.dto.UserDTO;
 import com.company.dto.UsersDTO;
 import com.company.entity.Receipt;
+import com.company.entity.User;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +42,7 @@ public class DataController {
     }
 
     @GetMapping("/account/users/{id}/receipts_history")
-    public Set<Receipt> getUserReceiptsHistory(@PathVariable(name = "id") Long id) {
-        return userService.loadUserById(id).getReceipts();
+    public Set<Receipt> getUserReceiptsHistory(@PathVariable(name = "id") User user) {
+        return user.getReceipts();
     }
 }

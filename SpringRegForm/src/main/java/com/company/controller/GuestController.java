@@ -1,11 +1,15 @@
 package com.company.controller;
 
-import com.company.dto.ApplicationDTO;
+import com.company.dto.AppWeightAddressDTO;
 import com.company.service.ApplicationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 public class GuestController {
@@ -26,8 +30,17 @@ public class GuestController {
     }
 
     @PostMapping("/calculate")
-    public String test(ApplicationDTO applicationDTO) {
-        applicationService.addApplication(applicationDTO);
+    public String test(@Valid AppWeightAddressDTO applicationDTO,
+                       BindingResult bindingResult,
+                       Model model) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("applicationDTO", applicationDTO);
+            return "calculator";
+        } else {
+            applicationService.addApplication(applicationDTO);
+        }
         return "redirect:/calculate/result";
     }
 
