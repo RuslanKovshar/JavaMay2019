@@ -1,0 +1,5 @@
+com\company\AccountControllerTest.class
+com\company\DataControllerTest.class
+com\company\utills\CSRFTokenHolder.class
+com\company\GuestControllerTest.class
+com\company\LoginControllerTest.class

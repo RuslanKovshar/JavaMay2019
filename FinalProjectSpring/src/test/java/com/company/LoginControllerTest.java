@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static com.company.utills.CSRFTokenHolder.TOKEN_ATTR_NAME;
 import static com.company.utills.CSRFTokenHolder.getCsrfToken;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -92,7 +91,11 @@ public class LoginControllerTest {
 
     @Test
     public void accessDenied() throws Exception {
-        this.mockMvc.perform(formLogin().user("not.right@mail.com").password("1"))
+        CsrfToken csrfToken = getCsrfToken();
+        this.mockMvc.perform(post("/login").sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                .param(csrfToken.getParameterName(), csrfToken.getToken())
+                .param("username", "not.right@mail.com")
+                .param("password", "1"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?error"));
@@ -100,7 +103,11 @@ public class LoginControllerTest {
 
     @Test
     public void accessAllowed() throws Exception {
-        this.mockMvc.perform(formLogin().user("example@mail.com").password("1111"))
+        CsrfToken csrfToken = getCsrfToken();
+        this.mockMvc.perform(post("/login").sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                .param(csrfToken.getParameterName(), csrfToken.getToken())
+                .param("username", "example@mail.com")
+                .param("password", "1111"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
