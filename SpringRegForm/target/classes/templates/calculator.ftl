@@ -2,12 +2,10 @@
 <#import "/spring.ftl" as spring/>
 <@c.common>
 
-    <div class="card my-2">
-        <div class="card-body">
+        <div class="alert alert-info">
             <h2><@spring.message "delivery.cost.message"/></h2>
-            <p class="card-text"><@spring.message "info.message"/></p>
+            <p><@spring.message "info.message"/></p>
         </div>
-    </div>
 
     <div class="card my-2 p-3">
         <form action="/calculate" method="post">
@@ -16,7 +14,9 @@
                     <h2><@spring.message "delivery.address.message"/></h2>
                 </div>
                 <div class="col-12 col-md-8">
-                    <input class="form-control ${(deliveryAddressError??)?string('is-invalid','')}" type="text"
+                    <input class="form-control ${(deliveryAddressError??)?string('is-invalid','')}"
+                           type="text"
+                           placeholder="Address"
                            name="deliveryAddress" value="<#if applicationDTO??>${applicationDTO.deliveryAddress}</#if>">
                     <#if deliveryAddressError??>
                         <div class="invalid-feedback">${deliveryAddressError}</div>
@@ -30,6 +30,7 @@
                 <div class="col-12 col-md-8">
                     <input type="text" name="weight"
                            class="form-control ${(weightError??)?string('is-invalid','')}"
+                           placeholder="weight"
                            value="<#if applicationDTO??>${applicationDTO.weight!}</#if>">
                     <#if weightError??>
                         <div class="invalid-feedback">${weightError}</div>

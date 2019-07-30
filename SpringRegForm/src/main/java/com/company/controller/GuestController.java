@@ -2,6 +2,7 @@ package com.company.controller;
 
 import com.company.dto.AppWeightAddressDTO;
 import com.company.service.ApplicationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
+@Slf4j
 public class GuestController {
     private final ApplicationService applicationService;
 
@@ -46,7 +48,12 @@ public class GuestController {
 
     @GetMapping("/calculate/result")
     public String getResult(Model model) {
-        model.addAttribute("result", applicationService.getApplicationCost());
+        try {
+            model.addAttribute("application", applicationService.applicationWeightAddressDTO());
+            model.addAttribute("cost",applicationService.calculateCost());
+        } catch (NullPointerException ex) {
+            log.info("{There is no application}");
+        }
         return "calc_result";
     }
 }

@@ -60,7 +60,7 @@ public class ApplicationService {
                 .build();
     }
 
-    private BigDecimal calculateCost() {
+    public BigDecimal calculateCost() {
         Double weight = application.getWeight();
         double scale = 0;
         if (weight <= 0.5) {
@@ -104,10 +104,10 @@ public class ApplicationService {
                 .build();
     }
 
-    public AppWeightAddressDTO getApplicationCost() {
+    public AppWeightAddressDTO applicationWeightAddressDTO() {
         return AppWeightAddressDTO.builder()
                 .weight(application.getWeight())
-                .cost(calculateCost())
+                .deliveryAddress(application.getDeliveryAddress())
                 .build();
     }
 

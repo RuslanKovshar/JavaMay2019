@@ -1,15 +1,18 @@
 package com.company.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AppWeightAddressDTO {
 
     @NotNull(message = "{input.weight}")
@@ -18,6 +21,4 @@ public class AppWeightAddressDTO {
 
     @NotBlank(message = "{input.address}")
     private String deliveryAddress;
-
-    private BigDecimal cost;
 }

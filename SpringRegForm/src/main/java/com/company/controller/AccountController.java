@@ -50,7 +50,7 @@ public class AccountController {
     }
 
     @PostMapping("/application")
-    public String setApplication(@AuthenticationPrincipal User user,
+    public String makeApplication(@AuthenticationPrincipal User user,
                                  @Valid ApplicationDTO applicationDTO,
                                  BindingResult bindingResult,
                                  Model model,
@@ -101,8 +101,8 @@ public class AccountController {
     }
 
     @PostMapping("/payment/pay")
-    public String setNewBalance(@RequestParam(name = "amount") BigDecimal amount) {
-        userService.topUpAccount(userService.getCurrentUser(), amount);
+    public String setNewBalance(@AuthenticationPrincipal User user, @RequestParam(name = "amount") BigDecimal amount) {
+        userService.topUpAccount(user, amount);
         return "redirect:/account";
     }
 

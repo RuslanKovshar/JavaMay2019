@@ -1,7 +1,7 @@
 <#import "parts/common.ftl" as c>
 <#import "/spring.ftl" as spring/>
 <@c.common>
-    <div class="login-container" style="width: 40%">
+    <div class="login-container">
         <form class="form-signin" method="post" action="/login">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             <h2 class="form-signin-heading"> <@spring.message "please.sign.in"/> </h2>
